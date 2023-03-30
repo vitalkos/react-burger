@@ -1,4 +1,4 @@
-import { Tab, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
 import data from '../../utils/data.json';
 import React from 'react';
@@ -49,18 +49,20 @@ class BurgerIngredientItems extends React.Component {
         ref: null,
         items: data.filter(t => t.type === itemType.key)
     }));
+    itemClicked = (e) => {
+    }
     render() {
         return (
             <div className='custom-scroll mt-10 mb-10' style={{ height: '100%', overflow: 'auto' }}>
-                {this.groups.map(group =>
-                    <section key={group.key} className='mb-10'>
-                        <p className='mb-6 noselect text text_type_main-medium' >{group.name}</p>
-                        <section style={{ display: 'flex',flexWrap: 'wrap' }}>
-                        {group.items.map(item => (
-                            <section key={item._id} className='ml-4 mr-3 mb-8' style={{ background: 'gray', width: 'calc(50% - 28px)' }}>
-                                <BurgerIngredientItem data={item} />
-                            </section>
-                        ))}
+                {this.groups.map((group, groupIndex) =>
+                    <section key={group.key} className={groupIndex !== 0 ? 'mt-10' : ''}>
+                        <p className='noselect text text_type_main-medium' >{group.name}</p>
+                        <section style={{ display: 'flex', flexWrap: 'wrap' }}>
+                            {group.items.map((item, itemIndex) => (
+                                <section key={item._id} className={`ml-4 mr-3 ${(itemIndex === 0 || itemIndex === 1) ? 'mt-6' : 'mt-8'}`} style={{ width: 'calc(50% - 28px)' }}>
+                                    <BurgerIngredientItem data={item} onClick={this.itemClicked} />
+                                </section>
+                            ))}
                         </section>
                     </section>)}
             </div>);
@@ -68,15 +70,21 @@ class BurgerIngredientItems extends React.Component {
 }
 
 class BurgerIngredientItem extends React.Component {
+    state = { clickCount: 0 };
+    clicked = () => {
+        this.setState((prevState) => ({ ...prevState, clickCount: prevState.clickCount + 1 }));
+        this.props.onClick({ count: this.state.clickCount, item: this.props.data });
+    }
     render() {
         return (
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <img className='ml-4 mr-4 mb-1' style={{ width: 'calc(100% - 32px)'}} src={this.props.data.image} alt={this.props.data.name} />
+            <div className={styles.ingredientItemContainer} onClick={this.clicked}>
+                <img className='ml-4 mr-4 mb-1' style={{ width: 'calc(100% - 32px)' }} src={this.props.data.image_large} alt={this.props.data.name} />
                 <section className='mb-1' style={{ display: 'inline-flex' }}>
                     <p className="mr-2 noselect text text_type_digits-default">{this.props.data.price}</p>
                     <CurrencyIcon type="primary" />
                 </section>
-                <p style={{background: 'green', width: '100%', textAlign: 'center'}} className="pb-6 noselect text text_type_main-default">{this.props.data.name}</p>
+                <p style={{ width: '100%', textAlign: 'center' }} className="pb-6 noselect text text_type_main-default">{this.props.data.name}</p>
+                {!!this.state.clickCount && <Counter count={this.state.clickCount} size="default" extraClass="noselect" />}
             </div>
         )
     }

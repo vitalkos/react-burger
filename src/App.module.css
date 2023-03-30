@@ -3,6 +3,7 @@
     flex-direction: column;
     height: 100vh;
     min-width: 1600px;
+    min-height: 550px;
   }
   
   .appMain {
@@ -24,6 +25,5 @@
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: #FFFFFF11;
-    /* border: wheat 1px dotted; */
+    /* background: #FFFFFF11; */
   }

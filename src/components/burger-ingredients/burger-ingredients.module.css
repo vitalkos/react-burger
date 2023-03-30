@@ -1,10 +1,23 @@
 .tabListContainer {
     display: flex;
 }
+
 .tabContainer {
     width: 100%;
 }
 
 .ingredientItemsContainer {
     display: flex;
+}
+
+.ingredientItemContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.ingredientItemContainer:hover {
+    background: #FFFFFF07;
+    cursor: pointer;
 }
