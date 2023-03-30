@@ -1,26 +1,26 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import styles from './App.module.css';
+import '@ya.praktikum/react-developer-burger-ui-components'
+import AppHeader from './components/app-header/app-header';
+import BurgerConstructor from './components/burger-constructor/burger-constructor'
+import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+const App = () =>
+(
+  <div className={styles.appContainer}>
+    <div className={styles.appHeader}>
+      <AppHeader />
     </div>
-  );
-}
+    <main className={`ml-30 mr-30 ${styles.appMain}`}>
+      <section className={`mr-5 ${styles.appSection}`}>
+        <BurgerIngredients />
+      </section>
+      <section className={`ml-5 ${styles.appSection}`}>
+        <BurgerConstructor />
+      </section>
+    </main>
+  </div>
+);
+
 
 export default App;
