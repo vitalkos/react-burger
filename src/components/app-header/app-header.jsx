@@ -30,11 +30,11 @@ const HeaderButton = (props) => {
     );
 }
 
-/* HeaderButton.propTypes = {
+HeaderButton.propTypes = {
     text: PropTypes.string.isRequired,
     icon: PropTypes.elementType.isRequired,
     isActive: PropTypes.bool.isRequired,
     className: PropTypes.string
-}; */
+};
 
 export default AppHeader;

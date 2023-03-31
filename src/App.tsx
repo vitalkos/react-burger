@@ -7,14 +7,22 @@ import BurgerIngredients from './components/burger-ingredients/burger-ingredient
 
 const App = () => {
   const [ingredients, setIngredients] = useState([] as any);
-  
+
   const ingredientAdded = (e: any) => {
+    if (e.item.type === 'bun' && ingredients.some((t: any) => t.type === 'bun')) {
+      const existedBun = ingredients.find((t: any) => t.type === 'bun');
+      if (existedBun._id === e.item._id)
+        return;
+      ingredientRemoved({ rowKey: existedBun.key });
+    }
+
     const key = Math.max(...ingredients.map((t: any) => t.key));
     const newItem = { ...e.item, key: key >= 0 ? (key + 1) : 0 };
     setIngredients((prevState: any) => ([...prevState, newItem]));
   };
 
-  const ingredientRemoved = (e: any) => 
+
+  const ingredientRemoved = (e: { rowKey: string }) =>
     setIngredients([...ingredients.filter((t: any) => t.key !== e.rowKey)]);
 
   return (

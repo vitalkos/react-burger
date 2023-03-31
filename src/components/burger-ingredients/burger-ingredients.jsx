@@ -32,17 +32,17 @@ class BurgerIngredients extends React.PureComponent {
         this.itemsComponentRef.current?.groups
             .find(t => t.key === e.key)?.ref?.current?.scrollIntoView();
 
-    groupScrolled = (e) => 
+    groupScrolled = (e) =>
         this.setState({ ...this.state, selectedGroupKey: e.key });
-    
-    ingredientClicked = (e) => 
+
+    ingredientClicked = (e) =>
         this.props.itemAdded(e);
 
     render() {
         return (<>
             <p className='mt-10 mb-5 noselect text text_type_main-large'>Соберите бургер</p>
             <BurgerIngredientTabs selectedItemKey={this.state.selectedGroupKey} onTabClicked={this.tabClicked} />
-            <BurgerIngredientItems selectedGroupKey={this.state.selectedGroupKey} ref={this.itemsComponentRef}
+            <BurgerIngredientItems selectedGroupKey={this.state.selectedGroupKey} selectedItems={this.props.ingredients} ref={this.itemsComponentRef}
                 onGroupScrolled={this.groupScrolled} onItemClick={this.ingredientClicked} />
         </>);
     }
@@ -81,6 +81,8 @@ class BurgerIngredientItems extends React.Component {
     }));
     containerRef = React.createRef();
     selectedGroupKey = this.props.selectedGroupKey;
+    calcItemsCount = (items) => items.map(t=>t._id).reduce((t, v) => {t[v] = (t[v] || 0) + 1;return t;}, {});
+    itemsCount = this.calcItemsCount(this.props.selectedItems);
 
     componentDidMount() {
         const container = this.containerRef.current;
@@ -89,8 +91,12 @@ class BurgerIngredientItems extends React.Component {
     shouldComponentUpdate(nextProps, nextState) {
         (nextProps.selectedGroupKey !== this.selectedGroupKey) &&
             (this.selectedGroupKey = nextProps.selectedGroupKey);
+        this.itemsCount = this.calcItemsCount(nextProps.selectedItems);
         return true;
     }
+
+
+
     componentWillUnmount() {
         const container = this.containerRef.current;
         container.removeEventListener("scroll", this.scrolledGroupHandler);
@@ -124,7 +130,7 @@ class BurgerIngredientItems extends React.Component {
                         <section style={{ display: 'flex', flexWrap: 'wrap' }}>
                             {group.items.map((item, itemIndex) => (
                                 <section key={item._id} className={`ml-4 mr-3 ${(itemIndex === 0 || itemIndex === 1) ? 'mt-6' : 'mt-8'}`} style={{ width: 'calc(50% - 28px)' }}>
-                                    <BurgerIngredientItem data={item} onClick={this.itemClicked} />
+                                    <BurgerIngredientItem data={item} count={this.itemsCount[item._id]} onClick={this.itemClicked} />
                                 </section>
                             ))}
                         </section>
@@ -134,10 +140,10 @@ class BurgerIngredientItems extends React.Component {
 }
 
 class BurgerIngredientItem extends React.PureComponent {
-    state = { clickCount: 0 };
+ /*    state = { clickCount: 0 }; */
     clicked = () => {
-        this.setState((prevState) => ({ ...prevState, clickCount: prevState.clickCount + 1 }));
-        this.props.onClick({ count: this.state.clickCount, item: this.props.data });
+        /* this.setState((prevState) => ({ ...prevState, clickCount: prevState.clickCount + 1 })); */
+        this.props.onClick({ item: this.props.data });
     }
     render() {
         return (
@@ -148,7 +154,7 @@ class BurgerIngredientItem extends React.PureComponent {
                     <CurrencyIcon type="primary" />
                 </section>
                 <p style={{ width: '100%', textAlign: 'center' }} className="pb-6 noselect text text_type_main-default">{this.props.data.name}</p>
-                {!!this.state.clickCount && <Counter count={this.state.clickCount} size="default" extraClass="noselect" />}
+                {!!this.props.count && <Counter count={this.props.count} size="default" extraClass="noselect" />}
             </div>
         )
     }
