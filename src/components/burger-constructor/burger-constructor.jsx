@@ -1,17 +1,21 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import data from '../../utils/data.json';
 
-class BurgerConstructor extends React.Component {
-  items = data;
+class BurgerConstructor extends React.PureComponent {
   get totalCost() {
-    return this.items.map(t => t.price).reduce((p, c) => p + c, 0);
+    const cost = this.props.ingredients.map(t => t.price).reduce((p, c) => p + c, 0);
+    const singleBunPrice = this.props.ingredients.find(t => t.type === 'bun')?.price;
+    return singleBunPrice ? (cost + singleBunPrice) : cost;
   }
+
+  ingredientRemoveClicked = (e) =>
+    this.props.itemRemoved(e);
+
   render() {
     return (<div className='mt-25' style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
       <section style={{ height: '100%', overflow: 'hidden' }}>
-        <BurgerConstructorItems items={this.items} />
+        <BurgerConstructorItems items={this.props.ingredients} onItemRemoved={this.ingredientRemoveClicked} />
       </section>
       <section className='mb-10 mt-10 mr-4'>
         <section style={{ display: 'inline-flex', alignItems: 'center', float: 'right' }}>
@@ -26,13 +30,18 @@ class BurgerConstructor extends React.Component {
   }
 }
 
-class BurgerConstructorItems extends React.Component {
+class BurgerConstructorItems extends React.PureComponent {
   get lockedItem() {
     return this.props.items.find(t => t.type === 'bun');
   }
   get unlockedItems() {
     return this.props.items.filter(t => t.type !== 'bun');
   }
+
+  itemRemoved = (e) => {
+    this.props.onItemRemoved(e);
+  }
+
   render() {
     return (<div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', height: '100%' }}>
       {!!this.lockedItem &&
@@ -50,18 +59,7 @@ class BurgerConstructorItems extends React.Component {
       {!!this.unlockedItems && (
         <section className={`custom-scroll ${styles.unlockedItemsContainer}`}>
           {this.unlockedItems.map(item =>
-          (
-            <ConstructorUnlockedElement key={item._id} {...item} />
-            /*             <section key={item._id} className='mr-4' style={{ display: 'flex', alignItems: 'center' }}>
-                          <DragIcon type="primary" />
-                          <ConstructorElement
-                            extraClass={`ml-2 ${styles.constructorElement}`}
-                            text={item.name}
-                            price={item.price}
-                            thumbnail={item.image}
-                          />
-                        </section> */
-          ))}
+            (<ConstructorUnlockedElement key={item.key} rowKey={item.key} {...item} onRemoveClick={this.itemRemoved} />))}
         </section>
       )}
 
@@ -80,13 +78,10 @@ class BurgerConstructorItems extends React.Component {
   }
 }
 
-class ConstructorUnlockedElement extends React.Component {
-  get lockedItem() {
-    return this.props.items.find(t => t.type === 'bun');
-  }
-  get unlockedItems() {
-    return this.props.items.filter(t => t.type !== 'bun');
-  }
+class ConstructorUnlockedElement extends React.PureComponent {
+  removeClicked = () =>
+    this.props.onRemoveClick({ key: this.props._id, rowKey: this.props.rowKey });
+
   render() {
     return (
       <section className='mr-4' style={{ display: 'flex', alignItems: 'center' }}>
@@ -95,6 +90,7 @@ class ConstructorUnlockedElement extends React.Component {
           extraClass={`ml-2 ${styles.constructorElement}`}
           text={this.props.name}
           price={this.props.price}
+          handleClose={this.removeClicked}
           thumbnail={this.props.image}
         />
       </section>)

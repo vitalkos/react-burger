@@ -3,33 +3,63 @@ import styles from './burger-ingredients.module.css';
 import data from '../../utils/data.json';
 import React from 'react';
 
+const itemTypeKeys = {
+    bun: 'bun',
+    sauce: 'sauce',
+    main: 'main',
+};
 
 const itemTypes = [{
-    key: 'bun',
-    name: 'Булки'
+    key: itemTypeKeys.bun,
+    name: 'Булки',
+    miltipleSelect: false
 }, {
-    key: 'sauce',
-    name: 'Соусы'
+    key: itemTypeKeys.sauce,
+    name: 'Соусы',
+    miltipleSelect: true
 }, {
-    key: 'main',
-    name: 'Начинки'
+    key: itemTypeKeys.main,
+    name: 'Начинки',
+    miltipleSelect: true
 }];
 
-class BurgerIngredients extends React.Component {
+class BurgerIngredients extends React.PureComponent {
+
+    itemsComponentRef = React.createRef();
+    state = { selectedGroupKey: itemTypes[0].key }
+
+    tabClicked = (e) =>
+        this.itemsComponentRef.current?.groups
+            .find(t => t.key === e.key)?.ref?.current?.scrollIntoView();
+
+    groupScrolled = (e) => 
+        this.setState({ ...this.state, selectedGroupKey: e.key });
+    
+    ingredientClicked = (e) => 
+        this.props.itemAdded(e);
+
     render() {
         return (<>
             <p className='mt-10 mb-5 noselect text text_type_main-large'>Соберите бургер</p>
-            <BurgerIngredientTabs />
-            <BurgerIngredientItems />
+            <BurgerIngredientTabs selectedItemKey={this.state.selectedGroupKey} onTabClicked={this.tabClicked} />
+            <BurgerIngredientItems selectedGroupKey={this.state.selectedGroupKey} ref={this.itemsComponentRef}
+                onGroupScrolled={this.groupScrolled} onItemClick={this.ingredientClicked} />
         </>);
     }
 }
 
 class BurgerIngredientTabs extends React.Component {
     tabs = itemTypes;
-    state = { current: this.tabs[0].key };
-    setCurrent = (tabKey) =>
+    state = { current: this.props.selectedItemKey };
+    setCurrent = (tabKey) => {
+        this.props.onTabClicked({ key: tabKey });
         this.setState({ ...this.state, current: tabKey });
+    }
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextState.current !== this.state.current) return true;
+        nextProps.selectedItemKey !== this.state.current && this.setState({ ...this.state, current: nextProps.selectedItemKey });
+        return nextProps.selectedItemKey !== this.state.current;
+    }
 
     render() {
         return (
@@ -46,17 +76,51 @@ class BurgerIngredientItems extends React.Component {
     groups = itemTypes.map(itemType => ({
         key: itemType.key,
         name: itemType.name,
-        ref: null,
+        ref: React.createRef(),
         items: data.filter(t => t.type === itemType.key)
     }));
-    itemClicked = (e) => {
+    containerRef = React.createRef();
+    selectedGroupKey = this.props.selectedGroupKey;
+
+    componentDidMount() {
+        const container = this.containerRef.current;
+        container?.addEventListener('scroll', this.scrolledGroupHandler);
     }
+    shouldComponentUpdate(nextProps, nextState) {
+        (nextProps.selectedGroupKey !== this.selectedGroupKey) &&
+            (this.selectedGroupKey = nextProps.selectedGroupKey);
+        return true;
+    }
+    componentWillUnmount() {
+        const container = this.containerRef.current;
+        container.removeEventListener("scroll", this.scrolledGroupHandler);
+    }
+
+    scrolledGroupHandler = () => {
+        const container = this.containerRef.current;
+        const sections = this.groups.map(t => t.ref.current);
+        const containerPosition = container.getBoundingClientRect();
+        const positions = sections.map(section => section.getBoundingClientRect());
+        positions.forEach((position, index) => {
+            if (position.top < containerPosition.top && position.bottom > 0 &&
+                this.groups[index].key !== this.selectedGroupKey) {
+                this.selectedGroupKey = this.groups[index].key;
+                this.props.onGroupScrolled({ key: this.selectedGroupKey })
+                console.log(this.groups[index].name);
+            }
+
+        })
+    }
+
+    itemClicked = (e) =>
+        this.props.onItemClick(e);
+
     render() {
         return (
-            <div className='custom-scroll mt-10 mb-10' style={{ height: '100%', overflow: 'auto' }}>
+            <div className='custom-scroll mt-10 mb-10' style={{ height: '100%', overflow: 'auto' }} ref={this.containerRef}>
                 {this.groups.map((group, groupIndex) =>
                     <section key={group.key} className={groupIndex !== 0 ? 'mt-10' : ''}>
-                        <p className='noselect text text_type_main-medium' >{group.name}</p>
+                        <p className='noselect text text_type_main-medium' ref={group.ref}>{group.name}</p>
                         <section style={{ display: 'flex', flexWrap: 'wrap' }}>
                             {group.items.map((item, itemIndex) => (
                                 <section key={item._id} className={`ml-4 mr-3 ${(itemIndex === 0 || itemIndex === 1) ? 'mt-6' : 'mt-8'}`} style={{ width: 'calc(50% - 28px)' }}>
@@ -69,7 +133,7 @@ class BurgerIngredientItems extends React.Component {
     }
 }
 
-class BurgerIngredientItem extends React.Component {
+class BurgerIngredientItem extends React.PureComponent {
     state = { clickCount: 0 };
     clicked = () => {
         this.setState((prevState) => ({ ...prevState, clickCount: prevState.clickCount + 1 }));

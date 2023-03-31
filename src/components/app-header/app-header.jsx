@@ -3,7 +3,7 @@ import styles from './app-header.module.css';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import PropTypes from 'prop-types';
 
-const AppHeader = () => {
+const AppHeader = React.memo(() => {
     return (
         <div className={styles.headerContainer}>
             <section className={`mt-4 mb-4 ml-30 ${styles.section}`}>
@@ -17,7 +17,7 @@ const AppHeader = () => {
                 <HeaderButton text='Личный кабинет' icon={ProfileIcon} isActive={false} />
             </section>
         </div>)
-}
+})
 
 const HeaderButton = (props) => {
     return (
@@ -30,11 +30,11 @@ const HeaderButton = (props) => {
     );
 }
 
-HeaderButton.propTypes = {
+/* HeaderButton.propTypes = {
     text: PropTypes.string.isRequired,
     icon: PropTypes.elementType.isRequired,
     isActive: PropTypes.bool.isRequired,
     className: PropTypes.string
-};
+}; */
 
 export default AppHeader;
