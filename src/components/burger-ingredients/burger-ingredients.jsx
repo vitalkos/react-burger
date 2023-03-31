@@ -1,32 +1,13 @@
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import styles from './burger-ingredients.module.css';
+import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
 import data from '../../utils/data.json';
 import React from 'react';
-
-const itemTypeKeys = {
-    bun: 'bun',
-    sauce: 'sauce',
-    main: 'main',
-};
-
-const itemTypes = [{
-    key: itemTypeKeys.bun,
-    name: 'Булки',
-    miltipleSelect: false
-}, {
-    key: itemTypeKeys.sauce,
-    name: 'Соусы',
-    miltipleSelect: true
-}, {
-    key: itemTypeKeys.main,
-    name: 'Начинки',
-    miltipleSelect: true
-}];
 
 class BurgerIngredients extends React.PureComponent {
 
     itemsComponentRef = React.createRef();
-    state = { selectedGroupKey: itemTypes[0].key }
+    state = { selectedGroupKey: ingredientItemTypes[0].key }
 
     tabClicked = (e) =>
         this.itemsComponentRef.current?.groups
@@ -49,7 +30,7 @@ class BurgerIngredients extends React.PureComponent {
 }
 
 class BurgerIngredientTabs extends React.Component {
-    tabs = itemTypes;
+    tabs = ingredientItemTypes;
     state = { current: this.props.selectedItemKey };
     setCurrent = (tabKey) => {
         this.props.onTabClicked({ key: tabKey });
@@ -73,7 +54,7 @@ class BurgerIngredientTabs extends React.Component {
 }
 
 class BurgerIngredientItems extends React.Component {
-    groups = itemTypes.map(itemType => ({
+    groups = ingredientItemTypes.map(itemType => ({
         key: itemType.key,
         name: itemType.name,
         ref: React.createRef(),
@@ -81,7 +62,7 @@ class BurgerIngredientItems extends React.Component {
     }));
     containerRef = React.createRef();
     selectedGroupKey = this.props.selectedGroupKey;
-    calcItemsCount = (items) => items.map(t=>t._id).reduce((t, v) => {t[v] = (t[v] || 0) + 1;return t;}, {});
+    calcItemsCount = (items) => items.map(t => t._id).reduce((t, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
     itemsCount = this.calcItemsCount(this.props.selectedItems);
 
     componentDidMount() {
@@ -114,8 +95,7 @@ class BurgerIngredientItems extends React.Component {
                 this.props.onGroupScrolled({ key: this.selectedGroupKey })
                 console.log(this.groups[index].name);
             }
-
-        })
+        });
     }
 
     itemClicked = (e) =>
@@ -140,9 +120,7 @@ class BurgerIngredientItems extends React.Component {
 }
 
 class BurgerIngredientItem extends React.PureComponent {
- /*    state = { clickCount: 0 }; */
     clicked = () => {
-        /* this.setState((prevState) => ({ ...prevState, clickCount: prevState.clickCount + 1 })); */
         this.props.onClick({ item: this.props.data });
     }
     render() {

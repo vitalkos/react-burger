@@ -1,11 +1,12 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
+import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 class BurgerConstructor extends React.PureComponent {
   get totalCost() {
     const cost = this.props.ingredients.map(t => t.price).reduce((p, c) => p + c, 0);
-    const singleBunPrice = this.props.ingredients.find(t => t.type === 'bun')?.price;
+    const singleBunPrice = this.props.ingredients.find(t => t.type === ingredientItemTypeKeys.bun)?.price;
     return singleBunPrice ? (cost + singleBunPrice) : cost;
   }
 
@@ -32,10 +33,10 @@ class BurgerConstructor extends React.PureComponent {
 
 class BurgerConstructorItems extends React.PureComponent {
   get lockedItem() {
-    return this.props.items.find(t => t.type === 'bun');
+    return this.props.items.find(t => t.type === ingredientItemTypeKeys.bun);
   }
   get unlockedItems() {
-    return this.props.items.filter(t => t.type !== 'bun');
+    return this.props.items.filter(t => t.type !== ingredientItemTypeKeys.bun);
   }
 
   itemRemoved = (e) => {
@@ -47,7 +48,7 @@ class BurgerConstructorItems extends React.PureComponent {
       {!!this.lockedItem &&
         <section className='ml-8 mr-4'>
           <ConstructorElement
-            extraClass={`${styles.constructorElement}`}
+            extraClass={`noselect ${styles.constructorElement}`}
             type="top"
             isLocked={true}
             text={`${this.lockedItem.name} (верх)`}
@@ -66,7 +67,7 @@ class BurgerConstructorItems extends React.PureComponent {
       {!!this.lockedItem &&
         <section className='ml-8 mr-4'>
           <ConstructorElement
-            extraClass={`${styles.constructorElement}`}
+            extraClass={`noselect ${styles.constructorElement}`}
             type="bottom"
             isLocked={true}
             text={`${this.lockedItem.name} (низ)`}
@@ -87,7 +88,7 @@ class ConstructorUnlockedElement extends React.PureComponent {
       <section className='mr-4' style={{ display: 'flex', alignItems: 'center' }}>
         <DragIcon type="primary" />
         <ConstructorElement
-          extraClass={`ml-2 ${styles.constructorElement}`}
+          extraClass={`ml-2 noselect ${styles.constructorElement}`}
           text={this.props.name}
           price={this.props.price}
           handleClose={this.removeClicked}
