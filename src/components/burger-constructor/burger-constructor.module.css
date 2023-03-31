@@ -2,3 +2,17 @@
 .constructorElement {
     max-width: 100%;
 }
+
+.unlockedItemsContainer{
+    overflow-y: overlay;
+    display: flex; 
+    flex-direction: column; 
+    gap: 10px; 
+    width: 100%;
+}
+
+@supports (-moz-appearance:none) {
+    .unlockedItemsContainer{
+        overflow-y: scroll;
+    }
+}

@@ -48,7 +48,7 @@ class BurgerConstructorItems extends React.Component {
         </section>}
 
       {!!this.unlockedItems && (
-        <section className='custom-scroll' style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', overflowY: 'overlay' }}>
+        <section className={`custom-scroll ${styles.unlockedItemsContainer}`}>
           {this.unlockedItems.map(item =>
           (
             <ConstructorUnlockedElement key={item._id} {...item} />
