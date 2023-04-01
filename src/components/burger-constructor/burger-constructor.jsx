@@ -1,6 +1,9 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
 import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
+import { burgerConstructorPropTypes
+, burgerConstructorItemsPropTypes
+, constructorUnlockedElementPropTypes } from './burger-constructor.type'
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 class BurgerConstructor extends React.PureComponent {
@@ -31,6 +34,7 @@ class BurgerConstructor extends React.PureComponent {
       </div>);
   }
 }
+BurgerConstructor.propTypes = burgerConstructorPropTypes;
 
 class BurgerConstructorItems extends React.PureComponent {
   get lockedItem() {
@@ -45,6 +49,14 @@ class BurgerConstructorItems extends React.PureComponent {
   }
 
   render() {
+    const unlockedItems = this.unlockedItems?.map(t => ({
+      id: t.id,
+      name: t.name,
+      price: t.price,
+      image: t.image,
+      rowKey: t.rowKey
+    })
+    );
     return (<div className={styles.burgerConstructorItemsContainer}>
       {!!this.lockedItem &&
         <section className='ml-8 mr-4'>
@@ -58,10 +70,10 @@ class BurgerConstructorItems extends React.PureComponent {
           />
         </section>}
 
-      {!!this.unlockedItems && (
+      {!!unlockedItems && (
         <section className={`custom-scroll ${styles.unlockedItemsContainer}`}>
-          {this.unlockedItems.map(item =>
-            (<ConstructorUnlockedElement key={item.key} rowKey={item.key} {...item} onRemoveClick={this.itemRemoved} />))}
+          {unlockedItems.map(item =>
+            (<ConstructorUnlockedElement key={item.rowKey} {...item} onRemoveClick={this.itemRemoved} />))}
         </section>
       )}
 
@@ -79,10 +91,11 @@ class BurgerConstructorItems extends React.PureComponent {
     </div>);
   }
 }
+BurgerConstructorItems.propTypes = burgerConstructorItemsPropTypes;
 
 class ConstructorUnlockedElement extends React.PureComponent {
   removeClicked = () =>
-    this.props.onRemoveClick({ key: this.props._id, rowKey: this.props.rowKey });
+    this.props.onRemoveClick({ key: this.props.id, rowKey: this.props.rowKey });
 
   render() {
     return (
@@ -98,6 +111,6 @@ class ConstructorUnlockedElement extends React.PureComponent {
       </section>)
   };
 }
-
+ConstructorUnlockedElement.propTypes = constructorUnlockedElementPropTypes;
 
 export default BurgerConstructor;

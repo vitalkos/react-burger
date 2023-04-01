@@ -1,8 +1,13 @@
 import { Tab, CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+import { burgerIngredientsPropTypes
+, burgerIngredientTabsPropTypes
+, burgerIngredientItemsPropTypes
+, burgerIngredientItemPropTypes } from './burger-ingredients.type'
 import styles from './burger-ingredients.module.css';
 import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
 import data from '../../utils/data.json';
 import React from 'react';
+import { mapJsonDataList } from '../../core/mappers/data.mapper'
 
 class BurgerIngredients extends React.PureComponent {
 
@@ -28,6 +33,7 @@ class BurgerIngredients extends React.PureComponent {
         </>);
     }
 }
+BurgerIngredients.propTypes = burgerIngredientsPropTypes;
 
 class BurgerIngredientTabs extends React.Component {
     tabs = ingredientItemTypes;
@@ -52,17 +58,19 @@ class BurgerIngredientTabs extends React.Component {
             </div>);
     }
 }
+BurgerIngredientTabs.propTypes = burgerIngredientTabsPropTypes;
 
 class BurgerIngredientItems extends React.Component {
     groups = ingredientItemTypes.map(itemType => ({
         key: itemType.key,
         name: itemType.name,
         ref: React.createRef(),
-        items: data.filter(t => t.type === itemType.key)
+        items: mapJsonDataList(data, { useLargeImage: true })
+            .filter(t => t.type === itemType.key)
     }));
     containerRef = React.createRef();
     selectedGroupKey = this.props.selectedGroupKey;
-    calcItemsCount = (items) => items.map(t => t._id).reduce((t, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
+    calcItemsCount = (items) => items.map(t => t.id).reduce((t, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
     itemsCount = this.calcItemsCount(this.props.selectedItems);
 
     componentDidMount() {
@@ -90,8 +98,7 @@ class BurgerIngredientItems extends React.Component {
             if (position.top < containerPosition.top && position.bottom > 0 &&
                 this.groups[index].key !== this.selectedGroupKey) {
                 this.selectedGroupKey = this.groups[index].key;
-                this.props.onGroupScrolled({ key: this.selectedGroupKey })
-                console.log(this.groups[index].name);
+                this.props.onGroupScrolled({ key: this.selectedGroupKey });
             }
         });
     }
@@ -106,9 +113,15 @@ class BurgerIngredientItems extends React.Component {
                     <section key={group.key} className={groupIndex !== 0 ? 'mt-10' : ''}>
                         <p className='noselect text text_type_main-medium' ref={group.ref}>{group.name}</p>
                         <section className={styles.ingredientGroupContainer}>
-                            {group.items.map((item, itemIndex) => (
-                                <section key={item._id} className={`ml-4 mr-3 ${styles.ingredientGroupItemContainer} ${(itemIndex === 0 || itemIndex === 1) ? 'mt-6' : 'mt-8'}`}>
-                                    <BurgerIngredientItem data={item} count={this.itemsCount[item._id]} onClick={this.itemClicked} />
+                            {group.items.map(t => ({
+                                id: t.id,
+                                name: t.name,
+                                image: t.image,
+                                price: t.price,
+                                count: this.itemsCount[t.id]
+                            })).map((item, itemIndex) => (
+                                <section key={item.id} className={`ml-4 mr-3 ${styles.ingredientGroupItemContainer} ${(itemIndex === 0 || itemIndex === 1) ? 'mt-6' : 'mt-8'}`}>
+                                    <BurgerIngredientItem {...item} onClick={this.itemClicked} />
                                 </section>
                             ))}
                         </section>
@@ -116,24 +129,26 @@ class BurgerIngredientItems extends React.Component {
             </div>);
     }
 }
+BurgerIngredientItems.propTypes = burgerIngredientItemsPropTypes;
 
 class BurgerIngredientItem extends React.PureComponent {
     clicked = () => {
-        this.props.onClick({ item: this.props.data });
+        this.props.onClick({ id: this.props.id });
     }
     render() {
         return (
-            <div className={styles.ingredientItemContainer} title={this.props.data.name} onClick={this.clicked}>
-                <img className={`ml-4 mr-4 mb-1 ${styles.ingredientItemImage}`} src={this.props.data.image_large} alt={this.props.data.name} />
+            <div className={styles.ingredientItemContainer} title={this.props.name} onClick={this.clicked}>
+                <img className={`ml-4 mr-4 mb-1 ${styles.ingredientItemImage}`} src={this.props.image} alt={this.props.name} />
                 <section className={`mb-1 ${styles.ingredientItemCost}`}>
-                    <p className="mr-2 noselect text text_type_digits-default">{this.props.data.price}</p>
+                    <p className="mr-2 noselect text text_type_digits-default">{this.props.price}</p>
                     <CurrencyIcon type="primary" />
                 </section>
-                <p className={`${styles.ingredientItemText} noselect text text_type_main-default`}>{this.props.data.name}</p>
+                <p className={`${styles.ingredientItemText} noselect text text_type_main-default`}>{this.props.name}</p>
                 {!!this.props.count && <Counter count={this.props.count} size="default" extraClass="noselect" />}
             </div>
         )
     }
 }
+BurgerIngredientItem.propTypes = burgerIngredientItemPropTypes;
 
 export default BurgerIngredients;

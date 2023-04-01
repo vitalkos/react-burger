@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './app-header.module.css';
+import { headerButtonPropTypes } from './app-header.type'
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import PropTypes from 'prop-types';
 
 const AppHeader = React.memo(() => {
     return (
@@ -30,11 +30,6 @@ const HeaderButton = (props) => {
     );
 }
 
-HeaderButton.propTypes = {
-    text: PropTypes.string.isRequired,
-    icon: PropTypes.elementType.isRequired,
-    isActive: PropTypes.bool.isRequired,
-    className: PropTypes.string
-};
+HeaderButton.propTypes = headerButtonPropTypes;
 
 export default AppHeader;
