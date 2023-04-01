@@ -76,8 +76,6 @@ class BurgerIngredientItems extends React.Component {
         return true;
     }
 
-
-
     componentWillUnmount() {
         const container = this.containerRef.current;
         container.removeEventListener("scroll", this.scrolledGroupHandler);
@@ -103,13 +101,13 @@ class BurgerIngredientItems extends React.Component {
 
     render() {
         return (
-            <div className='custom-scroll mt-10 mb-10' style={{ height: '100%', overflow: 'auto' }} ref={this.containerRef}>
+            <div className={`custom-scroll mt-10 mb-10 ${styles.ingredientItemsContainer}`} ref={this.containerRef}>
                 {this.groups.map((group, groupIndex) =>
                     <section key={group.key} className={groupIndex !== 0 ? 'mt-10' : ''}>
                         <p className='noselect text text_type_main-medium' ref={group.ref}>{group.name}</p>
-                        <section style={{ display: 'flex', flexWrap: 'wrap' }}>
+                        <section className={styles.ingredientGroupContainer}>
                             {group.items.map((item, itemIndex) => (
-                                <section key={item._id} className={`ml-4 mr-3 ${(itemIndex === 0 || itemIndex === 1) ? 'mt-6' : 'mt-8'}`} style={{ width: 'calc(50% - 28px)' }}>
+                                <section key={item._id} className={`ml-4 mr-3 ${styles.ingredientGroupItemContainer} ${(itemIndex === 0 || itemIndex === 1) ? 'mt-6' : 'mt-8'}`}>
                                     <BurgerIngredientItem data={item} count={this.itemsCount[item._id]} onClick={this.itemClicked} />
                                 </section>
                             ))}
@@ -126,8 +124,8 @@ class BurgerIngredientItem extends React.PureComponent {
     render() {
         return (
             <div className={styles.ingredientItemContainer} title={this.props.data.name} onClick={this.clicked}>
-                <img className='ml-4 mr-4 mb-1' style={{ width: 'calc(100% - 32px)' }} src={this.props.data.image_large} alt={this.props.data.name} />
-                <section className='mb-1' style={{ display: 'inline-flex' }}>
+                <img className={`ml-4 mr-4 mb-1 ${styles.ingredientItemImage}`} src={this.props.data.image_large} alt={this.props.data.name} />
+                <section className={`mb-1 ${styles.ingredientItemCost}`}>
                     <p className="mr-2 noselect text text_type_digits-default">{this.props.data.price}</p>
                     <CurrencyIcon type="primary" />
                 </section>

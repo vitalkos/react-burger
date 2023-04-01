@@ -7,7 +7,17 @@
 }
 
 .ingredientItemsContainer {
+    height: 100%;
+    overflow: auto;
+}
+
+.ingredientGroupContainer {
     display: flex;
+    flex-wrap: wrap;
+}
+
+.ingredientGroupItemContainer {
+    width: calc(50% - 28px);
 }
 
 .ingredientItemContainer {
@@ -22,6 +32,13 @@
     cursor: pointer;
 }
 
+.ingredientItemImage {
+    width: calc(100% - 32px);
+}
+
+.ingredientItemCost {
+    display: inline-flex;
+}
 
 .ingredientItemText {
     width: 100%;

@@ -14,20 +14,21 @@ class BurgerConstructor extends React.PureComponent {
     this.props.itemRemoved(e);
 
   render() {
-    return (<div className='mt-25' style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}>
-      <section style={{ height: '100%', overflow: 'hidden' }}>
-        <BurgerConstructorItems items={this.props.ingredients} onItemRemoved={this.ingredientRemoveClicked} />
-      </section>
-      <section className='mb-10 mt-10 mr-4'>
-        <section style={{ display: 'inline-flex', alignItems: 'center', float: 'right' }}>
-          <p className="mr-1 noselect text text_type_digits-default">{this.totalCost}</p>
-          <CurrencyIcon type="primary" />
-          <Button extraClass='ml-10' htmlType="button" type="primary" size="small">
-            Оформить заказ
-          </Button>
+    return (
+      <div className={`mt-25 ${styles.burgerConstructorContainer}`}>
+        <section className={styles.itemsContainer}>
+          <BurgerConstructorItems items={this.props.ingredients} onItemRemoved={this.ingredientRemoveClicked} />
         </section>
-      </section>
-    </div>);
+        <section className='mb-10 mt-10 mr-4'>
+          <section className={styles.orderContainer}>
+            <p className="mr-1 noselect text text_type_digits-default">{this.totalCost}</p>
+            <CurrencyIcon type="primary" />
+            <Button extraClass='ml-10' htmlType="button" type="primary" size="small">
+              Оформить заказ
+            </Button>
+          </section>
+        </section>
+      </div>);
   }
 }
 
@@ -44,7 +45,7 @@ class BurgerConstructorItems extends React.PureComponent {
   }
 
   render() {
-    return (<div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', height: '100%' }}>
+    return (<div className={styles.burgerConstructorItemsContainer}>
       {!!this.lockedItem &&
         <section className='ml-8 mr-4'>
           <ConstructorElement
@@ -85,7 +86,7 @@ class ConstructorUnlockedElement extends React.PureComponent {
 
   render() {
     return (
-      <section className='mr-4' style={{ display: 'flex', alignItems: 'center' }}>
+      <section className={`mr-4 ${styles.unlockedElement}`}>
         <DragIcon type="primary" />
         <ConstructorElement
           extraClass={`ml-2 noselect ${styles.constructorElement}`}
