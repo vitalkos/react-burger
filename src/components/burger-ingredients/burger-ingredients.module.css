@@ -21,3 +21,21 @@
     background: #FFFFFF07;
     cursor: pointer;
 }
+
+
+.ingredientItemText {
+    width: 100%;
+    text-align: center;
+    height: 50px;
+    overflow: hidden;
+}
+
+@supports (-webkit-line-clamp: 2) {
+    .ingredientItemText {
+        text-overflow: ellipsis;
+        white-space: initial;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+}

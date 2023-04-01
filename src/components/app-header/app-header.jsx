@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
 const AppHeader = React.memo(() => {
     return (
         <div className={styles.headerContainer}>
-            <section className={`mt-4 mb-4 ml-30 ${styles.section}`}>
+            <section className={`mt-4 mb-4 ml-15 ${styles.section}`}>
                 <HeaderButton className='mr-2' text='Конструктор' icon={BurgerIcon} isActive={true} />
                 <HeaderButton text='Лента заказов' icon={ListIcon} isActive={false} />
             </section>
             <section className={`${styles.section} ${styles.logoSection}`}>
                 <Logo />
             </section>
-            <section className={`mr-30 ${styles.section} ${styles.rightSection}`}>
+            <section className={`mr-15 ${styles.section} ${styles.rightSection}`}>
                 <HeaderButton text='Личный кабинет' icon={ProfileIcon} isActive={false} />
             </section>
         </div>)
@@ -21,7 +21,7 @@ const AppHeader = React.memo(() => {
 
 const HeaderButton = (props) => {
     return (
-        <div className={`${props.className} ${styles.headerButtonContainer}`}>
+        <div className={`${styles.headerButtonContainer} ${props.className || ''}`}>
             <section className='ml-5 mr-2'>
                 <props.icon type={props.isActive ? 'primary' : 'secondary'}></props.icon>
             </section>

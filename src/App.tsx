@@ -33,7 +33,7 @@ const App = () => {
       <header className={styles.appHeader}>
         <AppHeader />
       </header>
-      <main className={`ml-30 mr-30 ${styles.appMain}`}>
+      <main className={`ml-20 mr-20 ${styles.appMain}`}>
         <section className={`mr-5 ${styles.appSection}`}>
           <BurgerIngredients itemAdded={ingredientAdded} ingredients={ingredients} />
         </section>

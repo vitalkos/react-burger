@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.tab {
+  min-width: 100% !important;
+}
+
 
 ::-webkit-scrollbar {
 	width: 12px;

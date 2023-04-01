@@ -125,13 +125,13 @@ class BurgerIngredientItem extends React.PureComponent {
     }
     render() {
         return (
-            <div className={styles.ingredientItemContainer} onClick={this.clicked}>
+            <div className={styles.ingredientItemContainer} title={this.props.data.name} onClick={this.clicked}>
                 <img className='ml-4 mr-4 mb-1' style={{ width: 'calc(100% - 32px)' }} src={this.props.data.image_large} alt={this.props.data.name} />
                 <section className='mb-1' style={{ display: 'inline-flex' }}>
                     <p className="mr-2 noselect text text_type_digits-default">{this.props.data.price}</p>
                     <CurrencyIcon type="primary" />
                 </section>
-                <p style={{ width: '100%', textAlign: 'center' }} className="pb-6 noselect text text_type_main-default">{this.props.data.name}</p>
+                <p className={`${styles.ingredientItemText} noselect text text_type_main-default`}>{this.props.data.name}</p>
                 {!!this.props.count && <Counter count={this.props.count} size="default" extraClass="noselect" />}
             </div>
         )
