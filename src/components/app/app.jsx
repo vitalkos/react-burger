@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './app.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components'
 import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
-import data from '../../utils/data.json';
-import { mapJsonDataList } from '../../core/mappers/data.mapper';
+import { IngredientRepository } from '../../core/repositories/ingredient.repository';
 
 /** components */
 import AppHeader from '../app-header/app-header';
@@ -12,8 +11,30 @@ import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
+  const [items, setItems] = useState([]);
 
-  const items = mapJsonDataList(data);
+  useEffect(() => {
+    debugger;
+    IngredientRepository.getAll()
+      .then(items => {
+        if (!items || items.length === 0)
+          return;
+        const fillRandomSelectedItems = () => {
+          const result = [];
+          const bun = items.find(t => t.type === ingredientItemTypeKeys.bun);
+          bun && result.push({ ...bun, rowKey: 1 });
+          const otherItems = items.filter(t => t.type !== ingredientItemTypeKeys.bun);
+          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 2 });
+          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 3 });
+          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 4 });
+          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 5 });
+          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 6 });
+          return result;
+        }
+        setIngredients(fillRandomSelectedItems());
+        setItems(items);
+      })
+  }, []);
 
   const ingredientAdded = (e) => {
     const addedItem = items.find(t => t.id === e.id);
