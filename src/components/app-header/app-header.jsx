@@ -21,12 +21,10 @@ const AppHeader = React.memo(() => {
 
 const HeaderButton = (props) => {
     return (
-        <div className={`${styles.headerButtonContainer} ${props.className || ''}`}>
-            <section className='ml-5 mr-2'>
-                <props.icon type={props.isActive ? 'primary' : 'secondary'}></props.icon>
-            </section>
-            <p className={`mr-5 text_type_main-default noselect ${!props.isActive && 'text_color_inactive'}`}>{props.text}</p>
-        </div>
+        <a className={`pl-5 pr-5 ${styles.headerButtonContainer} ${props.className || ''}`}>
+            <props.icon type={props.isActive ? 'primary' : 'secondary'}></props.icon>
+            <p className={`ml-2 text_type_main-default noselect ${!props.isActive && 'text_color_inactive'}`}>{props.text}</p>
+        </a>
     );
 }
 

@@ -1,14 +1,8 @@
 import PropTypes from 'prop-types';
+import { ingredientPropTypes } from '../../core/prop-types/ingredient-prop-types';
 
 export const burgerIngredientsPropTypes = {
-    ingredients: PropTypes.arrayOf(PropTypes.shape({
-        rowKey: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired
-    })).isRequired,
+    ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
     itemAdded: PropTypes.func
 };
 
@@ -19,14 +13,7 @@ export const burgerIngredientTabsPropTypes = {
 
 export const burgerIngredientItemsPropTypes = {
     selectedGroupKey: PropTypes.string.isRequired,
-    selectedItems: PropTypes.arrayOf(PropTypes.shape({
-        rowKey: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired,
-        type: PropTypes.string.isRequired,
-        price: PropTypes.number.isRequired,
-        image: PropTypes.string.isRequired
-    })).isRequired,
+    selectedItems: PropTypes.arrayOf(ingredientPropTypes).isRequired,
     onGroupScrolled: PropTypes.func,
     onItemClick: PropTypes.func
 };
