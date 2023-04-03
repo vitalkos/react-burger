@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './burger-constructor.module.css';
 import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
 import {
   burgerConstructorPropTypes
   , burgerConstructorItemsPropTypes
   , constructorUnlockedElementPropTypes
-} from './burger-constructor.type'
+} from './burger-constructor.type';
+import Modal from '../modal/modal';
 import { ConstructorElement, Button, CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
+import OrderDetails from '../order-details/order-details';
 
 const BurgerConstructor = React.memo((props) => {
+  const [orderConfirmVisible, setOrderConfirmVisible] = useState(false)
   const totalCost = () => {
     const cost = props.ingredients.map(t => t.price).reduce((p, c) => p + c, 0);
     const singleBunPrice = props.ingredients.find(t => t.type === ingredientItemTypeKeys.bun)?.price;
@@ -16,6 +19,12 @@ const BurgerConstructor = React.memo((props) => {
   }
   const ingredientRemoveClicked = (e) =>
     props.itemRemoved(e);
+
+  const orderClicked = () =>
+    setOrderConfirmVisible(true);
+  const closeDetails = () =>
+    setOrderConfirmVisible(false);
+
   return (
     <div className={`mt-25 ${styles.burgerConstructorContainer}`}>
       <section className={styles.itemsContainer}>
@@ -25,11 +34,15 @@ const BurgerConstructor = React.memo((props) => {
         <section className={styles.orderContainer}>
           <p className="mr-1 noselect text text_type_digits-default">{totalCost()}</p>
           <CurrencyIcon type="primary" />
-          <Button extraClass='ml-10' htmlType="button" type="primary" size="small">
+          <Button extraClass='ml-10' htmlType="button" type="primary" size="small" onClick={orderClicked}>
             Оформить заказ
           </Button>
         </section>
       </section>
+      {orderConfirmVisible && props.ingredients && (
+        <Modal onClose={closeDetails}>
+          <OrderDetails ingredientIdList={props.ingredients.map(t => t.id)} />
+        </Modal>)}
     </div>);
 });
 BurgerConstructor.propTypes = burgerConstructorPropTypes;

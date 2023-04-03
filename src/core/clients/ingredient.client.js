@@ -5,13 +5,14 @@ export class IngredientClient {
         try {
             const response = await fetch(`${BASE_URL}/api/ingredients`);
             if (!response.ok)
-                return [];
+                throw new Error();
             const payload = await response.json();
             if (!payload.success || !payload.data || !Array.isArray(payload.data))
-                return [];
+                throw new Error();
             return payload.data;
         }
         catch {
+            console.error('Ошибка выполнения HTTP запроса. Не удалось получить список ингредиентов');
             return [];
         }
     }

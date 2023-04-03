@@ -14,7 +14,6 @@ const App = () => {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    debugger;
     IngredientRepository.getAll()
       .then(items => {
         if (!items || items.length === 0)

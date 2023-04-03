@@ -4,11 +4,13 @@ import {
     , burgerIngredientTabsPropTypes
     , burgerIngredientItemsPropTypes
     , burgerIngredientItemPropTypes
-} from './burger-ingredients.type'
+} from './burger-ingredients.type';
+import Modal from '../modal/modal';
 import styles from './burger-ingredients.module.css';
 import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
 import React, { useRef, useState, useEffect } from 'react';
 import { IngredientRepository } from '../../core/repositories/ingredient.repository';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const BurgerIngredients = React.memo((props) => {
     const [selectedGroupKey, setSelectedGroupKey] = useState(ingredientItemTypes[0].key);
@@ -66,6 +68,7 @@ BurgerIngredientTabs.propTypes = burgerIngredientTabsPropTypes;
 
 const BurgerIngredientItems = React.forwardRef((props, ref) => {
     const [items, setItems] = useState([]);
+    const [detailsItemId, setDetailsItemId] = useState(null);
     const groups = ingredientItemTypes.map(itemType => ({
         key: itemType.key,
         name: itemType.name,
@@ -104,8 +107,13 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
         }
     }, []);
 
-    const itemClicked = (e) =>
-        props.onItemClick(e);
+    const itemClicked = (e) => {
+        setDetailsItemId(e.id);
+        /*  props.onItemClick(e); */
+    }
+    const closeDetails = () => {
+        setDetailsItemId(null);
+    }
 
     return (
         <div className={`custom-scroll mt-10 mb-10 ${styles.ingredientItemsContainer}`} ref={containerRef}>
@@ -126,6 +134,10 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
                         ))}
                     </section>
                 </section>)}
+            {detailsItemId && (
+                <Modal header='Детали ингредиента' onClose={closeDetails}>
+                    <IngredientDetails id={detailsItemId} />
+                </Modal>)}
         </div>);
 })
 

@@ -1,0 +1,14 @@
+.ingredientDetailsContainer {
+    width: 480px;
+}
+
+.ingredientInfoContainer {
+    display: flex;
+}
+
+.ingredientInfoItemContainer {
+    flex: 1 1 auto;
+}
+.ingredientText {
+    text-align: center;
+}

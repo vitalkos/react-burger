@@ -25,10 +25,10 @@ export class IngredientRepository {
             mapFullDataItem(item, { useLargeImage: options.useLargeImage })
     }
 
-    static getDetails = async (id) => {
+    static getDetails = async (id, options = { useLargeImage: false }) => {
         const item = await this.#getRawItemById(id);
         if (!item) return null;
-        return mapDetailsDataItem(item);
+        return mapDetailsDataItem(item, options);
     }
 
     static #getRawItemById = async (id) => {

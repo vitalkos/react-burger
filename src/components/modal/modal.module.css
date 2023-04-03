@@ -1,0 +1,38 @@
+.modalContainer {
+    border-radius: var(--common-border-radius);
+    width: 750px;
+    position: relative;
+    background: var(--background-alt);
+    margin: auto;
+    cursor: auto;
+    border: 1px solid #FFFFFF23;
+}
+
+.modalHeaderContainer {
+    display: inline-flex;
+    width: 100%;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.modalHeader {
+    width: 100%;
+}
+
+.closeButtonWithoutHeader {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.modalDataContainer {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+}
+
+.closeButtonContainer:hover {
+    cursor: pointer;
+}
