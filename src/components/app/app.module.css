@@ -20,30 +20,9 @@
   
   .appSection {
     min-width: 400px;
-    max-width: 1200px;
+    max-width: 600px;
     width: 100%;
     display: flex;
     flex-direction: column;
     height: 100%;
-  }
-
-  
-  @media (min-width: 1500px)  {
-    .appMain {
-      margin-left: calc(var(--offset-base-size) * 25) !important;
-      margin-right: calc(var(--offset-base-size) * 25) !important;
-    }
-  }
-
-  @media (min-width: 1900px)  {
-    .appMain {
-      margin-left: calc(var(--offset-base-size) * 30) !important;
-      margin-right: calc(var(--offset-base-size) * 30) !important;
-    }
-  }
-  @media (min-width: 2300px)  {
-    .appMain {
-      margin-left: calc(var(--offset-base-size) * 35) !important;
-      margin-right: calc(var(--offset-base-size) * 35) !important;
-    }
   }

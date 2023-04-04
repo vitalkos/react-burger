@@ -3,13 +3,11 @@ import styles from './modal-overlay.module.css';
 import { modalOverlayPropTypes } from './modal-overlay.type';
 
 const ModalOverlay = (props) => {
-    const overlayClassName = 'modal-overlay';
-    const clicked = (e) =>
-        e.target.classList.contains(overlayClassName) && props.onClick();
+    const clicked = () =>
+        props.onClick();
 
     return (
-        <div className={`${styles.overlayContainer} ${overlayClassName}`} onClick={clicked}>
-            {props.children}
+        <div className={styles.overlayContainer} onClick={clicked}>
         </div>)
 }
 

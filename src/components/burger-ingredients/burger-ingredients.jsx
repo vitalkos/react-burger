@@ -39,8 +39,10 @@ BurgerIngredients.propTypes = burgerIngredientsPropTypes;
 const BurgerIngredientTabs = (props) => {
     const tabs = ingredientItemTypes;
     const [currentTabKey, setCurrentTabKey] = useState(props.selectedItemKey);
+    
     const prevTabKeyRef = useRef();
     const prevSelectedItemKey = useRef();
+
     const setCurrent = (tabKey) => {
         props.onTabClicked({ key: tabKey });
         setCurrentTabKey(tabKey);
@@ -75,13 +77,18 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
         ref: null,
         items: items.filter(t => t.type === itemType.key)
     }));
+
     groups[0].ref = useRef();
     groups[1].ref = useRef();
     groups[2].ref = useRef();
+
     const containerRef = useRef();
+
     ref.current = groups.map(t => ({ key: t.key, ref: t.ref }));
+
     const calcItemsCount = (items) => items.map(t => t.id).reduce((t, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
     const itemsCount = calcItemsCount(props.selectedItems);
+
     let selectedGroupKey = props.selectedGroupKey;
     const scrolledGroupHandlerRef = useRef(() => {
         const container = containerRef.current;
@@ -96,6 +103,7 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
             }
         });
     })
+
     useEffect(() => {
         const container = containerRef.current;
         const scrolledGroupHandler = scrolledGroupHandlerRef.current;

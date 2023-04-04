@@ -3,13 +3,13 @@ import { ingredientPropTypes } from '../../core/prop-types/ingredient-prop-types
 
 export const burgerConstructorPropTypes = {
     ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-    itemRemoved: PropTypes.func
+    itemRemoved: PropTypes.func.isRequired
 };
 
 
 export const burgerConstructorItemsPropTypes = {
     items: PropTypes.arrayOf(ingredientPropTypes).isRequired,
-    onItemRemoved: PropTypes.func
+    onItemRemoved: PropTypes.func.isRequired
 };
 
 export const constructorUnlockedElementPropTypes = {
@@ -18,5 +18,5 @@ export const constructorUnlockedElementPropTypes = {
     name: PropTypes.string.isRequired,
     price: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    onRemoveClick: PropTypes.func
+    onRemoveClick: PropTypes.func.isRequired
 };

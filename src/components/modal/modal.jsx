@@ -6,6 +6,7 @@ import { modalPropTypes } from './modal.type';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 
 const modalRoot = document.getElementById("modal");
+const ESC_KEYCODE = 27;
 
 const Modal = (props) => {
     const closeClicked = () =>
@@ -16,8 +17,7 @@ const Modal = (props) => {
         const closeClicked = closeClickedRef.current;
         const escapeClickHandler = (e) => {
             e = e || window.event;
-            const isEscape = "key" in e ? (e.key === "Escape" || e.key === "Esc") : (e.keyCode === 27);
-            isEscape && closeClicked();
+            e.keyCode === ESC_KEYCODE && closeClicked();
         }
         document.addEventListener("keydown", escapeClickHandler);
         return () => {
@@ -25,14 +25,12 @@ const Modal = (props) => {
         }
     }, []);
 
-    const extraStyle = {};
-    props.width && (extraStyle.width = props.width);
-    props.height && (extraStyle.height = props.height);
 
     return ReactDOM.createPortal(
         (
-            <ModalOverlay onClick={closeClicked}>
-                <section className={styles.modalContainer} style={extraStyle}>
+            <div className={styles.modalContainer}>
+                <ModalOverlay onClick={closeClicked} />
+                <section className={styles.modalContent}>
                     {!props.header ?
                         (<section className={`mt-15 mr-10 ${styles.closeButtonWithoutHeader} ${styles.closeButtonContainer}`}>
                             <CloseIcon type="primary" onClick={closeClicked} />
@@ -50,7 +48,7 @@ const Modal = (props) => {
                         {props.children}
                     </section>
                 </section>
-            </ModalOverlay>), modalRoot)
+            </div>), modalRoot)
 }
 
 Modal.propTypes = modalPropTypes;

@@ -1,11 +1,27 @@
 .modalContainer {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+
+.modalContent {
     border-radius: var(--common-border-radius);
     width: 750px;
-    position: relative;
     background: var(--background-alt);
+    position: relative;
     margin: auto;
     cursor: auto;
     border: 1px solid #FFFFFF23;
+    z-index: 3;
+    height: fit-content;
 }
 
 .modalHeaderContainer {
