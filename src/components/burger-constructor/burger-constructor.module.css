@@ -1,0 +1,48 @@
+.burgerConstructorContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+.itemsContainer {
+    height: 100%;
+    overflow: hidden;
+}
+
+.orderContainer {
+    display: inline-flex;
+    align-items: center;
+    float: right;
+}
+
+.burgerConstructorItemsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.constructorElement {
+    max-width: 100%;
+}
+
+.unlockedElement {
+    display: flex;
+    align-items: center;
+}
+
+.unlockedItemsContainer {
+    overflow-y: overlay;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+@supports (-moz-appearance:none) {
+    .unlockedItemsContainer {
+        overflow-y: scroll;
+    }
+}

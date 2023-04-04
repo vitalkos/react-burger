@@ -1,0 +1,26 @@
+.headerContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    max-width: 1400px;
+}
+
+.section {
+    display: flex;
+    flex: 1;
+}
+
+.logoSection {
+    justify-content: center;
+}
+
+.rightSection {
+    justify-content: right;
+}
+
+.headerButtonContainer {
+    display: inline-flex;
+    align-items: center;
+    border-radius: var(--common-border-radius);
+}
