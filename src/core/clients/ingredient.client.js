@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://norma.nomoreparties.space';
+import { BASE_URL } from "./common/base-url";
 
 export class IngredientClient {
     getAll = async () => {

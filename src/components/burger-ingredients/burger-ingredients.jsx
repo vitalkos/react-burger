@@ -8,29 +8,26 @@ import {
 import Modal from '../modal/modal';
 import styles from './burger-ingredients.module.css';
 import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useContext } from 'react';
 import { IngredientRepository } from '../../core/repositories/ingredient.repository';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { OrderContext } from '../../core/context/order.context';
 
-const BurgerIngredients = React.memo((props) => {
+const BurgerIngredients = React.memo(() => {
     const [selectedGroupKey, setSelectedGroupKey] = useState(ingredientItemTypes[0].key);
     const itemsComponentRef = useRef();
 
-    const tabClicked = (e) => {
+    const tabClicked = (e) => 
         itemsComponentRef.current?.find(t => t.key === e.key)?.ref?.current?.scrollIntoView();
-    }
-    const groupScrolled = (e) => {
+    
+    const groupScrolled = (e) =>
         setSelectedGroupKey(e.key);
-    }
-
-    const ingredientClicked = (e) =>
-        props.itemAdded(e);
 
     return (<>
         <p className='mt-10 mb-5 noselect text text_type_main-large'>Соберите бургер</p>
         <BurgerIngredientTabs selectedItemKey={selectedGroupKey} onTabClicked={tabClicked} />
-        <BurgerIngredientItems selectedGroupKey={selectedGroupKey} selectedItems={props.ingredients} ref={itemsComponentRef}
-            onGroupScrolled={groupScrolled} onItemClick={ingredientClicked} />
+        <BurgerIngredientItems selectedGroupKey={selectedGroupKey} ref={itemsComponentRef}
+            onGroupScrolled={groupScrolled} />
     </>);
 
 });
@@ -69,6 +66,7 @@ const BurgerIngredientTabs = (props) => {
 BurgerIngredientTabs.propTypes = burgerIngredientTabsPropTypes;
 
 const BurgerIngredientItems = React.forwardRef((props, ref) => {
+    const [order] = useContext(OrderContext);
     const [items, setItems] = useState([]);
     const [detailsItemId, setDetailsItemId] = useState(null);
     const groups = ingredientItemTypes.map(itemType => ({
@@ -87,7 +85,7 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
     ref.current = groups.map(t => ({ key: t.key, ref: t.ref }));
 
     const calcItemsCount = (items) => items.map(t => t.id).reduce((t, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
-    const itemsCount = calcItemsCount(props.selectedItems);
+    const itemsCount = calcItemsCount(order.items);
 
     let selectedGroupKey = props.selectedGroupKey;
     const scrolledGroupHandlerRef = useRef(() => {

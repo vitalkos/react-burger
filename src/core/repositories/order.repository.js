@@ -1,11 +1,9 @@
+import { OrderClient } from "../clients/order.client";
+
 export class OrderRepository {
 
     static create = async (ingredientIdList) => {
-        /* Placeholder */
-        return this.#getRandNumber();
-
+        const client = new OrderClient();
+        return await client.create(ingredientIdList);
     }
-    static #getRandNumber = (min = 300000, max = 600000) =>
-        Math.round(Math.random() * (max - min)) + min;
-
 }

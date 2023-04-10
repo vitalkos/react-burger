@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import styles from './app.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components'
 import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
@@ -8,66 +8,96 @@ import { IngredientRepository } from '../../core/repositories/ingredient.reposit
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
+import { OrderContext } from '../../core/context/order.context';
+
+const ORDER_ITEMS_SET_RAND = 'ORDER_ITEMS_SET_RAND';
+export const ORDER_ITEMS_ADD = 'ORDER_ITEMS_ADD';
+export const ORDER_ITEMS_REMOVE = 'ORDER_ITEMS_REMOVE';
+export const ORDER_ID_SET = 'ORDER_ID_SET';
 
 const App = () => {
-  const [ingredients, setIngredients] = useState([]);
-  const [items, setItems] = useState([]);
+  const [order, dispatchOrder] = useReducer((state, action) => {
+    const totalCost = (ingredients) => {
+      const cost = ingredients.map(t => t.price).reduce((p, c) => p + c, 0);
+      const singleBunPrice = ingredients.find(t => t.type === ingredientItemTypeKeys.bun)?.price;
+      return singleBunPrice ? (cost + singleBunPrice) : cost;
+    }
+    switch (action.type) {
+      case ORDER_ITEMS_SET_RAND:
+        if (!action.items || action.items.length === 0 || !action.count)
+          return { ...state };
+
+        const result = [];
+        const bun = action.items.find(t => t.type === ingredientItemTypeKeys.bun);
+        bun && result.push({ ...bun, rowKey: 1 });
+
+        const otherItems = action.items.filter(t => t.type !== ingredientItemTypeKeys.bun);
+        [...new Array(action.count)].forEach((el, index) =>
+          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: index + 2 }));
+
+        return { ...state, items: result, totalCost: totalCost(result) };
+
+
+      case ORDER_ITEMS_ADD:
+        if (!action.items || action.items.length === 0 || !action.id)
+          return { ...state };
+
+        const addedItem = action.items.find(t => t.id === action.id);
+        if (!addedItem)
+          return { ...state };
+
+        const currentIngredients = [...state.items];
+        if (addedItem.type === ingredientItemTypeKeys.bun &&
+          state.items.some(t => t.type === ingredientItemTypeKeys.bun)) {
+          const existedBun = state.items.find(t => t.type === ingredientItemTypeKeys.bun);
+          if (existedBun) {
+            if (existedBun?.id === addedItem.id)
+              return { ...state };
+            currentIngredients.filter(t => t.rowKey !== existedBun.rowKey);
+          }
+        }
+
+        const key = Math.max(...currentIngredients.map(t => t.rowKey));
+        const newItem = { ...addedItem, rowKey: key >= 0 ? (key + 1) : 0 };
+        currentIngredients.push(newItem);
+        return { ...state, items: currentIngredients, totalCost: totalCost(currentIngredients) };
+
+
+      case ORDER_ITEMS_REMOVE:
+        if (!action.rowKey) return { ...state };
+        const items = [...state.items].filter(t => t.rowKey !== action.rowKey)
+        return { ...state, items: items, totalCost: totalCost(items) };
+
+      case ORDER_ID_SET:
+        return { ...state, id: action.id };
+
+      default:
+        console.error(`Некорректно указан тип значения: ${action.type}`);
+    }
+  }, { items: [], totalCost: null, id: null });
 
   useEffect(() => {
     IngredientRepository.getAll()
-      .then(items => {
-        if (!items || items.length === 0)
-          return;
-        const fillRandomSelectedItems = () => {
-          const result = [];
-          const bun = items.find(t => t.type === ingredientItemTypeKeys.bun);
-          bun && result.push({ ...bun, rowKey: 1 });
-          const otherItems = items.filter(t => t.type !== ingredientItemTypeKeys.bun);
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 2 });
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 3 });
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 4 });
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 5 });
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 6 });
-          return result;
-        }
-        setIngredients(fillRandomSelectedItems());
-        setItems(items);
-      })
+      .then(items => items?.length > 0 &&
+        dispatchOrder({ type: ORDER_ITEMS_SET_RAND, items, count: 16 })
+      )
   }, []);
-
-  const ingredientAdded = (e) => {
-    const addedItem = items.find(t => t.id === e.id);
-    if (!addedItem) return;
-    if (addedItem.type === ingredientItemTypeKeys.bun &&
-      ingredients.some(t => t.type === ingredientItemTypeKeys.bun)) {
-      const existedBun = ingredients.find(t => t.type === ingredientItemTypeKeys.bun);
-      if (existedBun) {
-        if (existedBun?.id === addedItem.id)
-          return;
-        ingredientRemoved({ rowKey: existedBun.rowKey });
-      }
-    }
-    const key = Math.max(...ingredients.map(t => t.rowKey));
-    const newItem = { ...addedItem, rowKey: key >= 0 ? (key + 1) : 0 };
-    setIngredients(prevState => ([...prevState, newItem]));
-  };
-
-  const ingredientRemoved = (e) =>
-    setIngredients([...ingredients.filter(t => t.rowKey !== e.rowKey)]);
 
   return (
     <div className={styles.appContainer}>
       <header className={styles.appHeader}>
         <AppHeader />
       </header>
-      <main className={`ml-20 mr-20 ${styles.appMain}`}>
-        <section className={`mr-5 ${styles.appSection}`}>
-          <BurgerIngredients itemAdded={ingredientAdded} ingredients={ingredients} />
-        </section>
-        <section className={`ml-5 ${styles.appSection}`}>
-          <BurgerConstructor itemRemoved={ingredientRemoved} ingredients={ingredients} />
-        </section>
-      </main>
+      <OrderContext.Provider value={[order, dispatchOrder]}>
+        <main className={`ml-20 mr-20 ${styles.appMain}`}>
+          <section className={`mr-5 ${styles.appSection}`}>
+            <BurgerIngredients />
+          </section>
+          <section className={`ml-5 ${styles.appSection}`}>
+            <BurgerConstructor />
+          </section>
+        </main>
+      </OrderContext.Provider>
     </div>
   );
 }
