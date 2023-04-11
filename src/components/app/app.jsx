@@ -14,6 +14,7 @@ const ORDER_ITEMS_SET_RAND = 'ORDER_ITEMS_SET_RAND';
 export const ORDER_ITEMS_ADD = 'ORDER_ITEMS_ADD';
 export const ORDER_ITEMS_REMOVE = 'ORDER_ITEMS_REMOVE';
 export const ORDER_ID_SET = 'ORDER_ID_SET';
+export const ORDER_ID_CLEAR = 'ORDER_ID_CLEAR';
 
 const App = () => {
   const [order, dispatchOrder] = useReducer((state, action) => {
@@ -70,6 +71,9 @@ const App = () => {
 
       case ORDER_ID_SET:
         return { ...state, id: action.id };
+
+      case ORDER_ID_CLEAR:
+        return { ...state, id: null };
 
       default:
         console.error(`Некорректно указан тип значения: ${action.type}`);

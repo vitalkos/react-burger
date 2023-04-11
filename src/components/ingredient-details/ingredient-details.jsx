@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import styles from './ingredient-details.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components'
+import IngredientInfoItem from '../ingredient-info-item/ingredient-info-item';
 import { IngredientRepository } from '../../core/repositories/ingredient.repository';
-import { ingredientDetailsPropTypes, ingredientInfoItemPropTypes } from './ingredient-details.type';
+import { ingredientDetailsPropTypes } from './ingredient-details.type';
 
 const IngredientDetails = (props) => {
     const [item, setItem] = useState(null);
@@ -30,17 +31,5 @@ const IngredientDetails = (props) => {
 }
 
 IngredientDetails.propTypes = ingredientDetailsPropTypes;
-
-
-const IngredientInfoItem = (props) => {
-    return (
-        <section className={`${styles.ingredientInfoItemContainer} ${props.extraClass || ''}`}>
-            <p className={`noselect text text_type_main-default text_color_inactive ${styles.ingredientText}`}>{props.name}</p>
-            <p className={`noselect text text_type_digits-default text_color_inactive ${styles.ingredientText}`}>{props.value}</p>
-        </section>
-    );
-}
-
-IngredientInfoItem.propTypes = ingredientInfoItemPropTypes;
 
 export default IngredientDetails;

@@ -18,9 +18,3 @@
 .rightSection {
     justify-content: right;
 }
-
-.headerButtonContainer {
-    display: inline-flex;
-    align-items: center;
-    border-radius: var(--common-border-radius);
-}

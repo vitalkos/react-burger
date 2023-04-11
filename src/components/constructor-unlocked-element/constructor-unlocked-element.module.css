@@ -1,0 +1,8 @@
+.constructorElement {
+    max-width: 100%;
+}
+
+.unlockedElement {
+    display: flex;
+    align-items: center;
+}
