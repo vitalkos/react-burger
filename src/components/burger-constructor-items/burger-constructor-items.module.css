@@ -1,5 +1,6 @@
 .burgerConstructorItemsContainer {
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
     gap: 10px;
     width: 100%;

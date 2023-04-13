@@ -24,7 +24,7 @@ export const orderDetailsReducer = (state = initialState, action) => {
                 ...state,
                 orderFailed: false,
                 orderRequest: false,
-                id: action.order.id
+                id: action.data.order.number
             };
         }
         case SET_ORDER_DETAILS_FAILED: {

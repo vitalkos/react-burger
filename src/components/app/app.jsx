@@ -1,6 +1,8 @@
 import React from 'react';
-import styles from './app.module.css';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import '@ya.praktikum/react-developer-burger-ui-components'
+import styles from './app.module.css';
 
 /** components */
 import AppHeader from '../app-header/app-header';
@@ -14,12 +16,14 @@ const App = () => {
         <AppHeader />
       </header>
       <main className={`ml-20 mr-20 ${styles.appMain}`}>
-        <section className={`mr-5 ${styles.appSection}`}>
-          <BurgerIngredients />
-        </section>
-        <section className={`ml-5 ${styles.appSection}`}>
-          <BurgerConstructor />
-        </section>
+        <DndProvider backend={HTML5Backend}>
+          <section className={`mr-5 ${styles.appSection}`}>
+            <BurgerIngredients />
+          </section>
+          <section className={`ml-5 ${styles.appSection}`}>
+            <BurgerConstructor />
+          </section>
+        </DndProvider>
       </main>
     </div>
   );
