@@ -1,17 +1,24 @@
-import React, { useRef, useState, useEffect, useContext } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { burgerIngredientItemsPropTypes } from './burger-ingredient-items.type';
 import Modal from '../modal/modal';
 import styles from './burger-ingredient-items.module.css';
 import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
-import { IngredientRepository } from '../../core/repositories/ingredient.repository';
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { OrderContext } from '../../core/context/order.context';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
+import { IngredientRepository } from '../../core/repositories/ingredient.repository';
+
+/** redux */
+import { useDispatch, useSelector } from 'react-redux';
+import { getIngredientsAll, setIngredientDetails, clearIngredientDetails } from '../../services/actions';
 
 const BurgerIngredientItems = React.forwardRef((props, ref) => {
-    const [order] = useContext(OrderContext);
-    const [items, setItems] = useState([]);
-    const [detailsItemId, setDetailsItemId] = useState(null);
+    const dispatch = useDispatch();
+    const { items, selectedItems, detailsItemId } = useSelector(store => ({
+        items: store.ingredients.items
+        , selectedItems: store.selectedIngredients.items
+        , detailsItemId: store.ingredientDetails.id
+    }));
+
     const groups = ingredientItemTypes.map(itemType => ({
         key: itemType.key,
         name: itemType.name,
@@ -28,7 +35,7 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
     ref.current = groups.map(t => ({ key: t.key, ref: t.ref }));
 
     const calcItemsCount = (items) => items.map(t => t.id).reduce((t, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
-    const itemsCount = calcItemsCount(order.items);
+    const itemsCount = calcItemsCount(selectedItems);
 
     let selectedGroupKey = props.selectedGroupKey;
     const scrolledGroupHandlerRef = useRef(() => {
@@ -49,20 +56,24 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
         const container = containerRef.current;
         const scrolledGroupHandler = scrolledGroupHandlerRef.current;
         container?.addEventListener('scroll', scrolledGroupHandler);
-        IngredientRepository.getAll({ useLargeImage: true })
-            .then(items => setItems(items));
+        dispatch(getIngredientsAll());
         return () => {
             container.removeEventListener("scroll", scrolledGroupHandler);
         }
-    }, []);
+    }, [dispatch]);
 
-    const itemClicked = (e) => {
-        setDetailsItemId(e.id);
-        /*  props.onItemClick(e); */
+    const itemClicked = async (e) => {
+        if (!e.id)
+            return;
+        try {
+            const item = await IngredientRepository.getDetails(e.id, { useLargeImage: true });
+            item && dispatch(setIngredientDetails(item));
+        }
+        catch { }
     }
-    const closeDetails = () => {
-        setDetailsItemId(null);
-    }
+    const closeDetails = () =>
+        dispatch(clearIngredientDetails());
+
 
     return (
         <div className={`custom-scroll mt-10 mb-10 ${styles.ingredientItemsContainer}`} ref={containerRef}>

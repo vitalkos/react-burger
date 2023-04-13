@@ -13,7 +13,7 @@ export class OrderClient {
             throw new Error('Ошибка выполнения HTTP запроса. Не удалось создать заказ');
         const payload = await response.json();
         if (!payload.success || !payload?.order?.number)
-            throw new Error('Ошибка выполнения HTTP запроса. Не удалось создать заказ');
+            throw new Error('Ошибка получения данных HTTP запроса. Не удалось создать заказ');
         return payload;
 
     }

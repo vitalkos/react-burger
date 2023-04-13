@@ -1,24 +1,27 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from './burger-constructor-items.module.css';
 import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
 import { burgerConstructorItemsPropTypes } from './burger-constructor-items.type';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { OrderContext } from '../../core/context/order.context';
 import ConstructorUnlockedElement from '../constructor-unlocked-element/constructor-unlocked-element';
 
+/** redux */
+import { useSelector } from 'react-redux';
+
 const BurgerConstructorItems = React.memo(() => {
-  const [order] = useContext(OrderContext);
+  const items = useSelector(store => store.selectedIngredients.items);
+
   const lockedItem = React.useMemo(() =>
-    order.items.find(t => t.type === ingredientItemTypeKeys.bun), [order])
+    items.find(t => t.type === ingredientItemTypeKeys.bun), [items])
 
   const unlockedItems = React.useMemo(() =>
-    order.items.filter(t => t.type !== ingredientItemTypeKeys.bun)?.map(t => ({
+    items.filter(t => t.type !== ingredientItemTypeKeys.bun)?.map(t => ({
       id: t.id,
       name: t.name,
       price: t.price,
       image: t.image,
       rowKey: t.rowKey
-    })), [order]);
+    })), [items]);
 
   return (<div className={styles.burgerConstructorItemsContainer}>
     {!!lockedItem &&
