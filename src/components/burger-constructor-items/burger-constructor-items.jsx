@@ -24,6 +24,7 @@ const BurgerConstructorItems = React.memo(() => {
       isHover: monitor.isOver(),
     })
   });
+
   const onDropHandler = async (e) => {
     if (!e.id)
       return;

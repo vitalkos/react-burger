@@ -29,7 +29,11 @@ export const selectedIngredientsReducer = (state = initialState, action) => {
             return { ...state, items: items, totalCost: calcTotalCost(items) };
         }
         case MOVE_SELECTED_INGREDIENT: {
-            return state;
+            const item = state.items.find(t => t.rowKey === action.key);
+            const newIndex = state.items.findIndex(t => t.rowKey === action.newPositionKey);
+            const items = [...state.items].filter(t => t.rowKey !== action.key);
+            items.splice(newIndex, 0, item);
+            return { ...state, items: items };
         }
         default: {
             return state;

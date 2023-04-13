@@ -13,8 +13,8 @@ export const deleteSelectedIngredient = (key) => ({
     key
 }); 
 
-export const moveSelectedIngredient = (key, newPosition) => ({
+export const moveSelectedIngredient = (key, newPositionKey) => ({
     type: MOVE_SELECTED_INGREDIENT,
     key, 
-    newPosition
+    newPositionKey
 }); 
