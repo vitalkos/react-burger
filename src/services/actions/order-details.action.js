@@ -1,4 +1,4 @@
-import { OrderRepository } from "../../core/repositories/order.repository";
+import { OrderClient } from "../../core/clients/order.client";
 
 export const CLEAR_ORDER_DETAILS = 'CLEAR_ORDER_DETAILS';
 
@@ -14,7 +14,7 @@ export const setOrderDetails = (ids) => (dispatch) => {
     dispatch({
         type: SET_ORDER_DETAILS_REQUEST
     });
-    OrderRepository.create(ids)
+    OrderClient.create(ids)
         .then(orderInfo => dispatch({
             type: SET_ORDER_DETAILS_SUCCESS,
             data: orderInfo

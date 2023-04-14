@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './app-header.module.css';
 import HeaderButton from '../header-button/header-button';
-import { appHeaderPropTypes } from './app-header.type';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 const AppHeader = React.memo(() => {
@@ -18,8 +17,6 @@ const AppHeader = React.memo(() => {
                 <HeaderButton text='Личный кабинет' icon={ProfileIcon} isActive={false} />
             </section>
         </div>)
-})
-AppHeader.propTypes = appHeaderPropTypes;
-
+});
 
 export default AppHeader;

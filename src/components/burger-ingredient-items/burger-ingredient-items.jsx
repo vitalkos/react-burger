@@ -5,11 +5,10 @@ import styles from './burger-ingredient-items.module.css';
 import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
-import { IngredientRepository } from '../../core/repositories/ingredient.repository';
 
 /** redux */
 import { useDispatch, useSelector } from 'react-redux';
-import { getIngredientsAll, setIngredientDetails, clearIngredientDetails } from '../../services/actions';
+import { setIngredientDetails, clearIngredientDetails } from '../../services/actions';
 
 const BurgerIngredientItems = React.forwardRef((props, ref) => {
     const dispatch = useDispatch();
@@ -56,17 +55,16 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
         const container = containerRef.current;
         const scrolledGroupHandler = scrolledGroupHandlerRef.current;
         container?.addEventListener('scroll', scrolledGroupHandler);
-        dispatch(getIngredientsAll());
         return () => {
             container.removeEventListener("scroll", scrolledGroupHandler);
         }
-    }, [dispatch]);
+    }, []);
 
     const itemClicked = async (e) => {
         if (!e.id)
             return;
         try {
-            const item = await IngredientRepository.getDetails(e.id, { useLargeImage: true });
+            const item = items.find(t => t.id === e.id);
             item && dispatch(setIngredientDetails(item));
         }
         catch { }

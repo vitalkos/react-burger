@@ -1,6 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { burgerIngredientsPropTypes } from './burger-ingredients.type';
-import styles from './burger-ingredients.module.css';
 import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
 import BurgerIngredientTabs from '../burger-ingredient-tabs/burger-ingredient-tabs';
 import BurgerIngredientItems from '../burger-ingredient-items/burger-ingredient-items';
@@ -23,6 +21,5 @@ const BurgerIngredients = React.memo(() => {
     </>);
 
 });
-BurgerIngredients.propTypes = burgerIngredientsPropTypes;
 
 export default BurgerIngredients;

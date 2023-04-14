@@ -2,7 +2,6 @@ import React from 'react';
 import { useDrop } from "react-dnd";
 import styles from './burger-constructor-items.module.css';
 import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
-import { burgerConstructorItemsPropTypes } from './burger-constructor-items.type';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorUnlockedElement from '../constructor-unlocked-element/constructor-unlocked-element';
 import { DndArea } from '../../core/types/dnd-area.type';
@@ -10,11 +9,14 @@ import { DndArea } from '../../core/types/dnd-area.type';
 /** redux */
 import { useSelector, useDispatch } from 'react-redux';
 import { addSelectedIngredient } from '../../services/actions';
-import { IngredientRepository } from '../../core/repositories/ingredient.repository';
 
 const BurgerConstructorItems = React.memo(() => {
   const dispatch = useDispatch();
-  const items = useSelector(store => store.selectedIngredients.items);
+
+  const { items, selectedItems } = useSelector(store => ({
+    items: store.ingredients.items
+    , selectedItems: store.selectedIngredients.items
+  }));
   const [{ isHover }, dropTarget] = useDrop({
     accept: DndArea.INGREDIENT,
     drop(item) {
@@ -29,23 +31,23 @@ const BurgerConstructorItems = React.memo(() => {
     if (!e.id)
       return;
     try {
-      const item = await IngredientRepository.get(e.id, { useLargeImage: false });
+      const item = items.find(t => t.id === e.id);
       item && dispatch(addSelectedIngredient(item));
     }
     catch { }
   }
 
   const lockedItem = React.useMemo(() =>
-    items.find(t => t.type === ingredientItemTypeKeys.bun), [items])
+    selectedItems.find(t => t.type === ingredientItemTypeKeys.bun), [selectedItems])
 
   const unlockedItems = React.useMemo(() =>
-    items.filter(t => t.type !== ingredientItemTypeKeys.bun)?.map(t => ({
+    selectedItems.filter(t => t.type !== ingredientItemTypeKeys.bun)?.map(t => ({
       id: t.id,
       name: t.name,
       price: t.price,
       image: t.image,
       rowKey: t.rowKey
-    })), [items]);
+    })), [selectedItems]);
 
   const hoverStyle = {
     background: '#00FF0009',
@@ -85,7 +87,6 @@ const BurgerConstructorItems = React.memo(() => {
         />
       </section>}
   </div>);
-})
-BurgerConstructorItems.propTypes = burgerConstructorItemsPropTypes;
+});
 
 export default BurgerConstructorItems;

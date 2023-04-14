@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './burger-constructor.module.css';
-import { burgerConstructorPropTypes } from './burger-constructor.type';
 import BurgerConstructorItems from '../burger-constructor-items/burger-constructor-items';
 import BurgerOrderTotal from '../burger-order-total/burger-order-total';
 
@@ -15,6 +14,5 @@ const BurgerConstructor = React.memo(() => {
       </section>
     </div>);
 });
-BurgerConstructor.propTypes = burgerConstructorPropTypes;
 
 export default BurgerConstructor;

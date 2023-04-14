@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import '@ya.praktikum/react-developer-burger-ui-components'
@@ -9,7 +9,17 @@ import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
+/** redux */
+import { useDispatch } from 'react-redux';
+import { getIngredientsAll } from '../../services/actions';
+
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getIngredientsAll());
+  }, [dispatch]);
+
   return (
     <div className={styles.appContainer}>
       <header className={styles.appHeader}>

@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './ingredient-details.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientInfoItem from '../ingredient-info-item/ingredient-info-item';
-import { IngredientRepository } from '../../core/repositories/ingredient.repository';
-import { ingredientDetailsPropTypes } from './ingredient-details.type';
 
-const IngredientDetails = (props) => {
-    const [item, setItem] = useState(null);
+/** redux */
+import { useSelector } from 'react-redux';
 
-    useEffect(() => {
-        props.id && IngredientRepository.getDetails(props.id, { useLargeImage: true })
-            .then(item => !!item && setItem(item))
-    }, [props.id]);
+const IngredientDetails = () => {
+    const item = useSelector(store => store.ingredientDetails);
 
     return (
         <div className={styles.ingredientDetailsContainer}>
@@ -29,7 +25,5 @@ const IngredientDetails = (props) => {
         </div>
     );
 }
-
-IngredientDetails.propTypes = ingredientDetailsPropTypes;
 
 export default IngredientDetails;

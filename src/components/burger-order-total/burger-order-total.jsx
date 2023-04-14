@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './burger-order-total.module.css';
-import { burgerOrderTotalPropTypes } from './burger-order-total.type';
 import Modal from '../modal/modal';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
@@ -41,6 +40,5 @@ const BurgerOrderTotal = () => {
     </section>
   );
 }
-BurgerOrderTotal.propTypes = burgerOrderTotalPropTypes;
 
 export default BurgerOrderTotal;
