@@ -1,0 +1,7 @@
+.tabListContainer {
+    display: flex;
+}
+
+.tabContainer {
+    width: 100%;
+}

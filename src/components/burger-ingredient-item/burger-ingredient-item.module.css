@@ -1,25 +1,3 @@
-.tabListContainer {
-    display: flex;
-}
-
-.tabContainer {
-    width: 100%;
-}
-
-.ingredientItemsContainer {
-    height: 100%;
-    overflow: auto;
-}
-
-.ingredientGroupContainer {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.ingredientGroupItemContainer {
-    width: calc(50% - 28px);
-}
-
 .ingredientItemContainer {
     display: flex;
     flex-direction: column;

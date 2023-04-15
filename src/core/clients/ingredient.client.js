@@ -1,19 +1,8 @@
-export const BASE_URL = 'https://norma.nomoreparties.space';
+import { request } from "../../utils/http-client";
 
-export class IngredientClient {
-    getAll = async () => {
-        try {
-            const response = await fetch(`${BASE_URL}/api/ingredients`);
-            if (!response.ok)
-                throw new Error();
-            const payload = await response.json();
-            if (!payload.success || !payload.data || !Array.isArray(payload.data))
-                throw new Error();
-            return payload.data;
-        }
-        catch {
-            console.error('Ошибка выполнения HTTP запроса. Не удалось получить список ингредиентов');
-            return [];
-        }
+export const IngredientClient = {
+    getAll: async () => {
+        const response = await request('ingredients');
+        return response.data;
     }
 }

@@ -1,37 +1,33 @@
-import IngredientItem from '../models/ingredient-item.model';
-
-export const mapMainDataItem = (rawDataItem, options = defaultOptions) => {
-    const dtoItem = new IngredientItem();
-    dtoItem.id = rawDataItem._id;
-    dtoItem.name = rawDataItem.name;
-    dtoItem.type = rawDataItem.type;
-    dtoItem.price = rawDataItem.price;
-    dtoItem.image = options.useLargeImage ? rawDataItem.image_large : rawDataItem.image;
+export const mapDataItem = (rawDataItem) => {
+    const { _id, image, image_mobile, image_large, ...otherProperties } = rawDataItem;
+    const dtoItem = { ...otherProperties };
+    dtoItem.id = _id;
+    dtoItem.image = image_large;
+    dtoItem.smallImage = image;
     return dtoItem;
 }
 
-export const mapDetailsDataItem = (rawDataItem, options = defaultOptions) => {
+export const mapDetailsDataItem = (dataItem) => {
     const dtoItem = {};
-    dtoItem.id = rawDataItem._id;
-    dtoItem.name = rawDataItem.name;
-    dtoItem.proteins = rawDataItem.proteins;
-    dtoItem.fat = rawDataItem.fat;
-    dtoItem.carbohydrates = rawDataItem.carbohydrates;
-    dtoItem.calories = rawDataItem.calories;
-    dtoItem.image = options.useLargeImage ? rawDataItem.image_large : rawDataItem.image;
+    dtoItem.id = dataItem.id;
+    dtoItem.name = dataItem.name;
+    dtoItem.proteins = dataItem.proteins;
+    dtoItem.fat = dataItem.fat;
+    dtoItem.carbohydrates = dataItem.carbohydrates;
+    dtoItem.calories = dataItem.calories;
+    dtoItem.image = dataItem.image;
     return dtoItem;
 }
 
-export const mapFullDataItem = (rawDataItem, options = defaultOptions) =>
-    ({ ...mapMainDataItem(rawDataItem, options), ...mapDetailsDataItem(rawDataItem) });
+export const mapSelectedDataItem = (dataItem) => {
+    const dtoItem = {};
+    dtoItem.id = dataItem.id;
+    dtoItem.type = dataItem.type;
+    dtoItem.name = dataItem.name;
+    dtoItem.price = dataItem.price;
+    dtoItem.image = dataItem.smallImage;
+    return dtoItem;
+}
 
-
-export const mapMainDataList = (rawDataItem, options = defaultOptions) =>
-    rawDataItem.map(item => mapMainDataItem(item, options));
-export const mapDetailsDataList = (rawDataItem, options = defaultOptions) =>
-    rawDataItem.map(item => mapDetailsDataItem(item, options));
-export const mapFullDataList = (rawDataItem, options = defaultOptions) =>
-    rawDataItem.map(item => mapFullDataItem(item, options));
-
-
-const defaultOptions = { useLargeImage: false }
+export const mapDataList = (rawData) =>
+    rawData.map(item => mapDataItem(item));

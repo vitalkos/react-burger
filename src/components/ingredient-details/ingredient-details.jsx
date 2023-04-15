@@ -1,16 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styles from './ingredient-details.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components'
-import { IngredientRepository } from '../../core/repositories/ingredient.repository';
-import { ingredientDetailsPropTypes, ingredientInfoItemPropTypes } from './ingredient-details.type';
+import IngredientInfoItem from '../ingredient-info-item/ingredient-info-item';
 
-const IngredientDetails = (props) => {
-    const [item, setItem] = useState(null);
+/** redux */
+import { useSelector } from 'react-redux';
 
-    useEffect(() => {
-        props.id && IngredientRepository.getDetails(props.id, { useLargeImage: true })
-            .then(item => !!item && setItem(item))
-    }, [props.id]);
+const IngredientDetails = () => {
+    const item = useSelector(store => store.ingredientDetails);
 
     return (
         <div className={styles.ingredientDetailsContainer}>
@@ -28,19 +25,5 @@ const IngredientDetails = (props) => {
         </div>
     );
 }
-
-IngredientDetails.propTypes = ingredientDetailsPropTypes;
-
-
-const IngredientInfoItem = (props) => {
-    return (
-        <section className={`${styles.ingredientInfoItemContainer} ${props.extraClass || ''}`}>
-            <p className={`noselect text text_type_main-default text_color_inactive ${styles.ingredientText}`}>{props.name}</p>
-            <p className={`noselect text text_type_digits-default text_color_inactive ${styles.ingredientText}`}>{props.value}</p>
-        </section>
-    );
-}
-
-IngredientInfoItem.propTypes = ingredientInfoItemPropTypes;
 
 export default IngredientDetails;

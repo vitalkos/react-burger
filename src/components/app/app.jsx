@@ -1,59 +1,24 @@
-import React, { useEffect, useState } from 'react';
-import styles from './app.module.css';
+import React, { useEffect } from 'react';
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 import '@ya.praktikum/react-developer-burger-ui-components'
-import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
-import { IngredientRepository } from '../../core/repositories/ingredient.repository';
+import styles from './app.module.css';
 
 /** components */
 import AppHeader from '../app-header/app-header';
 import BurgerConstructor from '../burger-constructor/burger-constructor'
 import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
+/** redux */
+import { useDispatch } from 'react-redux';
+import { getIngredientsAll } from '../../services/actions';
+
 const App = () => {
-  const [ingredients, setIngredients] = useState([]);
-  const [items, setItems] = useState([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    IngredientRepository.getAll()
-      .then(items => {
-        if (!items || items.length === 0)
-          return;
-        const fillRandomSelectedItems = () => {
-          const result = [];
-          const bun = items.find(t => t.type === ingredientItemTypeKeys.bun);
-          bun && result.push({ ...bun, rowKey: 1 });
-          const otherItems = items.filter(t => t.type !== ingredientItemTypeKeys.bun);
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 2 });
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 3 });
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 4 });
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 5 });
-          result.push({ ...otherItems[Math.floor(Math.random() * otherItems.length)], rowKey: 6 });
-          return result;
-        }
-        setIngredients(fillRandomSelectedItems());
-        setItems(items);
-      })
-  }, []);
-
-  const ingredientAdded = (e) => {
-    const addedItem = items.find(t => t.id === e.id);
-    if (!addedItem) return;
-    if (addedItem.type === ingredientItemTypeKeys.bun &&
-      ingredients.some(t => t.type === ingredientItemTypeKeys.bun)) {
-      const existedBun = ingredients.find(t => t.type === ingredientItemTypeKeys.bun);
-      if (existedBun) {
-        if (existedBun?.id === addedItem.id)
-          return;
-        ingredientRemoved({ rowKey: existedBun.rowKey });
-      }
-    }
-    const key = Math.max(...ingredients.map(t => t.rowKey));
-    const newItem = { ...addedItem, rowKey: key >= 0 ? (key + 1) : 0 };
-    setIngredients(prevState => ([...prevState, newItem]));
-  };
-
-  const ingredientRemoved = (e) =>
-    setIngredients([...ingredients.filter(t => t.rowKey !== e.rowKey)]);
+    dispatch(getIngredientsAll());
+  }, [dispatch]);
 
   return (
     <div className={styles.appContainer}>
@@ -61,12 +26,14 @@ const App = () => {
         <AppHeader />
       </header>
       <main className={`ml-20 mr-20 ${styles.appMain}`}>
-        <section className={`mr-5 ${styles.appSection}`}>
-          <BurgerIngredients itemAdded={ingredientAdded} ingredients={ingredients} />
-        </section>
-        <section className={`ml-5 ${styles.appSection}`}>
-          <BurgerConstructor itemRemoved={ingredientRemoved} ingredients={ingredients} />
-        </section>
+        <DndProvider backend={HTML5Backend}>
+          <section className={`mr-5 ${styles.appSection}`}>
+            <BurgerIngredients />
+          </section>
+          <section className={`ml-5 ${styles.appSection}`}>
+            <BurgerConstructor />
+          </section>
+        </DndProvider>
       </main>
     </div>
   );
