@@ -1,17 +1,26 @@
 import React, { useEffect } from 'react';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app.module.css';
-
-/** components */
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor'
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
 /** redux */
 import { useDispatch } from 'react-redux';
 import { getIngredientsAll } from '../../services/actions';
+
+/** components */
+import AppHeader from '../app-header/app-header';
+
+/** pages */
+import {
+  ConstructorPage
+  , LoginPage
+  , NotFoundPage
+  , RegisterPage
+  , ForgotPasswordPage
+  , ResetPasswordPage
+  , ProfilePage
+} from '../../pages';
+import Profile from '../profile/profile';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -26,14 +35,21 @@ const App = () => {
         <AppHeader />
       </header>
       <main className={`ml-20 mr-20 ${styles.appMain}`}>
-        <DndProvider backend={HTML5Backend}>
-          <section className={`mr-5 ${styles.appSection}`}>
-            <BurgerIngredients />
-          </section>
-          <section className={`ml-5 ${styles.appSection}`}>
-            <BurgerConstructor />
-          </section>
-        </DndProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<ConstructorPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
+            <Route path="/profile" element={<ProfilePage />} >
+              <Route path="" element={<Profile />} />
+              {/* <Route path="orders" element={<NotFoundPage />} /> */}
+            </Route>
+            {/* <Route path="/list/:country/:personId" element={<PersonPage />} /> */}
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
+        </BrowserRouter>
       </main>
     </div>
   );
