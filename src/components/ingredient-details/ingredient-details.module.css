@@ -5,3 +5,7 @@
 .ingredientInfoContainer {
     display: flex;
 }
+
+.ingredientText {
+    text-align: center;
+}

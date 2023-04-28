@@ -1,4 +1,6 @@
 .headerButtonContainer {
+    text-decoration: none;
+    color: var(--text-primary-color);
     display: inline-flex;
     align-items: center;
     border-radius: var(--common-border-radius);

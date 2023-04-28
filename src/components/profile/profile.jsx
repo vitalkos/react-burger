@@ -7,7 +7,7 @@ const Profile = () => {
         alert(123);
     }
     return (
-        <div className={`mt-30 ${styles.profileContainer}`}>
+        <div className={`${styles.profileContainer}`}>
             <Input
                 placeholder='Имя'
                 icon={'EditIcon'}

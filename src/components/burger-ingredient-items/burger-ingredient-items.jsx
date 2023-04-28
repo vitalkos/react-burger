@@ -1,21 +1,19 @@
 import React, { useRef, useEffect } from 'react';
+import { useLocation, useNavigate } from "react-router-dom";
 import { burgerIngredientItemsPropTypes } from './burger-ingredient-items.type';
-import Modal from '../modal/modal';
 import styles from './burger-ingredient-items.module.css';
 import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
-
 /** redux */
 import { useDispatch, useSelector } from 'react-redux';
-import { setIngredientDetails, clearIngredientDetails } from '../../services/actions';
 
 const BurgerIngredientItems = React.forwardRef((props, ref) => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { items, selectedItems, detailsItemId } = useSelector(store => ({
+    const { items, selectedItems } = useSelector(store => ({
         items: store.ingredients.items
         , selectedItems: store.selectedIngredients.items
-        , detailsItemId: store.ingredientDetails.id
     }));
 
     const groups = ingredientItemTypes.map(itemType => ({
@@ -60,17 +58,9 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
         }
     }, []);
 
-    const itemClicked = async (e) => {
-        if (!e.id)
-            return;
-        try {
-            const item = items.find(t => t.id === e.id);
-            item && dispatch(setIngredientDetails(item));
-        }
-        catch { }
+    const itemClicked = (e) => {
+        e?.id && navigate(`/ingredients/${e.id}`, {state: { backgroundLocation: location }})
     }
-    const closeDetails = () =>
-        dispatch(clearIngredientDetails());
 
 
     return (
@@ -92,10 +82,6 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
                         ))}
                     </section>
                 </section>)}
-            {detailsItemId && (
-                <Modal header='Детали ингредиента' onClose={closeDetails}>
-                    <IngredientDetails id={detailsItemId} />
-                </Modal>)}
         </div>);
 })
 

@@ -1,45 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Outlet } from "react-router-dom";
+import { NavLink, Outlet } from "react-router-dom";
 import styles from './profile.module.css';
 
 export const ProfilePage = () => {
-    const [selectedSectionIndex, setSelectedSectionIndex] = useState(0);
-    const navigate = useNavigate();
+    const [selectedSection, setSelectedSection] = useState();
 
     const sections = [
         {
             name: 'Профиль',
-            onClick: () => navigate('/profile'),
+            route: '/profile',
             description: 'В этом разделе вы можете изменить свои персональные данные'
         }, {
             name: 'История заказов',
-            onClick: () => navigate('/profile/orders'),
+            route: '/profile/orders',
             description: ''
         }, {
             name: 'Выход',
-            onClick: () => alert('exit test'),
+            route: '/profile/exit',
+            onClick: () => alert('exit'),
             description: ''
         }
     ];
-    const sectionClicked = (index) => {
-        /* setSelectedSectionIndex(index);
-        sections[index]?.onClick(); */
+    const sectionClicked = (e, index) => {
+        const section = sections[index];
+        if (!section)
+            return;
+
+        if (section?.onClick) {
+            e.preventDefault();
+            section.onClick();
+            return;
+        }
+        setSelectedSection(section);
     }
+
 
     return (
         <div className={styles.profileSectionsContainer}>
             <section className={`pt-30 mr-15 ${styles.leftSection}`}>
                 {sections.map((section, index) => (
-                    <p key={index} onClick={() => sectionClicked(index)}
-                        className={`mb-10 noselect text text_type_main-medium ${selectedSectionIndex !== index ? 'text_color_inactive' : ''}`}>
+                    <NavLink end key={index} to={section.route} onClick={(e) => sectionClicked(e, index)}
+                        className={({ isActive }) => `mb-10 noselect text text_type_main-medium ${styles.navLink} ${!isActive ? 'text_color_inactive' : styles.navLinkActive}`}>
                         {section.name}
-                    </p>
+                    </NavLink>
                 ))}
                 <p className={`mt-10 noselect text text_type_main-default text_color_inactive ${styles.descriptionText}`}>
-                    {sections[selectedSectionIndex].description}
+                    {selectedSection?.description}
                 </p>
             </section>
-            <section className={styles.rightSection}>
+            <section className={`pt-30 ${styles.rightSection}`}>
                 <Outlet />
             </section>
         </div>

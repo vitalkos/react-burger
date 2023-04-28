@@ -9,13 +9,19 @@
     flex-direction: column;
 }
 
+.navLink {
+    text-decoration: none;
+}
+
+.navLinkActive {
+    color: var(--text-primary-color);    
+}
+
 .descriptionText {
     opacity: 0.5;
     width: 320px;
 }
 
-
 .rightSection {
-    height: 100%;
     width: 100%;
 }
