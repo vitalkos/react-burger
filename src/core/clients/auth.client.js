@@ -2,13 +2,13 @@ import { request } from "../../utils/http-client";
 import { getRefreshToken } from "../../utils/token";
 
 export const AuthClient = {
-    register: (data) =>
+    register: (name, email, password) =>
         request('auth/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json;charset=utf-8'
             },
-            body: JSON.stringify(data)
+            body: JSON.stringify({name, email, password})
         }),
     login: (email, password) =>
         request('auth/login', {

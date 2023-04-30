@@ -7,7 +7,7 @@ export const getAccessToken = () =>
     getCookie(ACCESS_TOKEN_NAME);
 
 export const setAccessToken = (token) =>
-    setCookie(ACCESS_TOKEN_NAME, token);
+    setCookie(ACCESS_TOKEN_NAME, token.replace('Bearer ', ''));
 
 export const deleteAccessToken = () =>
     deleteCookie(ACCESS_TOKEN_NAME);

@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, Outlet } from "react-router-dom";
 import styles from './profile.module.css';
 
+/** redux */
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../services/actions';
+
 export const ProfilePage = () => {
     const [selectedSection, setSelectedSection] = useState();
-
+    const dispatch = useDispatch();
     const sections = [
         {
             name: 'Профиль',
@@ -17,7 +21,7 @@ export const ProfilePage = () => {
         }, {
             name: 'Выход',
             route: '/profile/exit',
-            onClick: () => alert('exit'),
+            onClick: () => dispatch(logout()),
             description: ''
         }
     ];

@@ -1,3 +1,7 @@
 .profileContainer {
-    
+    width: 480px;
+}
+
+.editButtonsContainer {
+    float: right;
 }
