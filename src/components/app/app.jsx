@@ -1,22 +1,37 @@
 import React, { useEffect } from 'react';
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { Routes, Route, useLocation } from "react-router-dom";
 import '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app.module.css';
 
-/** components */
-import AppHeader from '../app-header/app-header';
-import BurgerConstructor from '../burger-constructor/burger-constructor'
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-
 /** redux */
 import { useDispatch } from 'react-redux';
-import { getIngredientsAll } from '../../services/actions';
+import { getIngredientsAll, getUser } from '../../services/actions';
+
+/** components */
+import AppHeader from '../app-header/app-header';
+
+/** pages */
+import {
+  ConstructorPage
+  , LoginPage
+  , NotFoundPage
+  , RegisterPage
+  , ForgotPasswordPage
+  , ResetPasswordPage
+  , ProfilePage
+  , IngredientDetailsPage
+  , IngredientDetailsModalPage
+} from '../../pages';
+import Profile from '../profile/profile';
+import { ProtectedRouteElement } from '../protected-route/protected-route';
 
 const App = () => {
   const dispatch = useDispatch();
+  const location = useLocation();
+  const state = location.state;
 
   useEffect(() => {
+    dispatch(getUser());
     dispatch(getIngredientsAll());
   }, [dispatch]);
 
@@ -26,14 +41,26 @@ const App = () => {
         <AppHeader />
       </header>
       <main className={`ml-20 mr-20 ${styles.appMain}`}>
-        <DndProvider backend={HTML5Backend}>
-          <section className={`mr-5 ${styles.appSection}`}>
-            <BurgerIngredients />
-          </section>
-          <section className={`ml-5 ${styles.appSection}`}>
-            <BurgerConstructor />
-          </section>
-        </DndProvider>
+        <Routes location={state?.backgroundLocation || location}>
+          <Route path="/" element={<ConstructorPage />} />
+          <Route path="/login" element={<ProtectedRouteElement forAuthorized={true} element={<LoginPage />}/>} />
+          <Route path="/register" element={<ProtectedRouteElement forAuthorized={true} element={<RegisterPage />}/>} />
+          <Route path="/forgot-password" element={<ProtectedRouteElement forAuthorized={true} element={<ForgotPasswordPage />}/>} />
+          <Route path="/reset-password" element={<ProtectedRouteElement forAuthorized={true} element={<ResetPasswordPage />}/>} />
+          <Route path="/profile" element={<ProtectedRouteElement forAuthorized={false} element={<ProfilePage />}/>} >
+            <Route path="" element={<Profile />} />
+            <Route path="orders" element={<NotFoundPage />} />
+            <Route path="exit" element={<NotFoundPage />} />
+          </Route>
+          <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Routes>
+
+        {state?.backgroundLocation && (
+          <Routes>
+            <Route path="/ingredients/:id" element={<IngredientDetailsModalPage />} />
+          </Routes>
+        )}
       </main>
     </div>
   );

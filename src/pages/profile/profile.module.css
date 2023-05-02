@@ -1,0 +1,27 @@
+.profileSectionsContainer {
+    display: flex;
+    width: 100%;
+    max-width: 1240px;
+}
+
+.leftSection {
+    display: flex;
+    flex-direction: column;
+}
+
+.navLink {
+    text-decoration: none;
+}
+
+.navLinkActive {
+    color: var(--text-primary-color);    
+}
+
+.descriptionText {
+    opacity: 0.5;
+    width: 320px;
+}
+
+.rightSection {
+    width: 100%;
+}

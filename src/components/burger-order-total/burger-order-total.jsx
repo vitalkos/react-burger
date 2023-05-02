@@ -3,6 +3,7 @@ import styles from './burger-order-total.module.css';
 import Modal from '../modal/modal';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from '../order-details/order-details';
+import { useNavigate } from 'react-router';
 
 /** redux */
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,17 +11,23 @@ import { setOrderDetails, clearOrderDetails } from '../../services/actions';
 
 const BurgerOrderTotal = () => {
   const dispatch = useDispatch();
-  const { selectedItems, totalCost, orderId, isOrderCreating } = useSelector(store => ({
+  const navigate = useNavigate();
+  const { selectedItems, totalCost, orderId, isOrderCreating, isAuthorized } = useSelector(store => ({
     selectedItems: store.selectedIngredients.items
     , totalCost: store.selectedIngredients.totalCost
     , orderId: store.orderDetails.id
     , isOrderCreating: store.orderDetails.orderRequest
-    }));
-    
+    , isAuthorized: !!store.auth.user
+  }));
+
   const createOrder = () => {
+    if (!isAuthorized) {
+      navigate('/login');
+      return;
+    } 
     const ingredientIdList = selectedItems.map(t => t.id);
-    ingredientIdList && ingredientIdList.length > 0 && 
-    dispatch(setOrderDetails(ingredientIdList));
+    ingredientIdList && ingredientIdList.length > 0 &&
+      dispatch(setOrderDetails(ingredientIdList));
   }
 
   const closeOrderModal = () =>

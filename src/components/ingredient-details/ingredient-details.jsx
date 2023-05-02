@@ -2,13 +2,9 @@ import React from 'react';
 import styles from './ingredient-details.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientInfoItem from '../ingredient-info-item/ingredient-info-item';
+import { ingredientDetailsType } from './ingredient-details.type';
 
-/** redux */
-import { useSelector } from 'react-redux';
-
-const IngredientDetails = () => {
-    const item = useSelector(store => store.ingredientDetails);
-
+const IngredientDetails = ({item}) => {
     return (
         <div className={styles.ingredientDetailsContainer}>
             {!!item &&
@@ -25,5 +21,7 @@ const IngredientDetails = () => {
         </div>
     );
 }
+
+IngredientDetails.propTypes = ingredientDetailsType;
 
 export default IngredientDetails;
