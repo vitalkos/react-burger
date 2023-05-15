@@ -10,7 +10,14 @@ import {
 export const BASE_URL = 'https://norma.nomoreparties.space';
 
 export const request = async (endpoint, options) => {
-    const response = await fetch(`${BASE_URL}/api/${endpoint}`, options);
+    const response = await fetch(`${BASE_URL}/api/${endpoint}`, {
+        ...(options || {}),
+        headers: {
+            ...(options?.headers || {}),
+            'Content-Type': options?.headers && options?.headers['Content-Type'] ?
+                options.headers['Content-Type'] : 'application/json;charset=utf-8'
+        }
+    });
     return await validatePayload(response);
 }
 
@@ -29,6 +36,8 @@ export const secureRequest = async (endpoint, options) => {
         ...(options || {}),
         headers: {
             ...(options?.headers || {}),
+            'Content-Type': options?.headers && options?.headers['Content-Type'] ?
+                options.headers['Content-Type'] : 'application/json;charset=utf-8',
             'Authorization': `Bearer ${token}`
         }
     });
