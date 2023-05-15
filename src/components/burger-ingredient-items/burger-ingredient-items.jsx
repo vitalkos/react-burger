@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { burgerIngredientItemsPropTypes } from './burger-ingredient-items.type';
 import styles from './burger-ingredient-items.module.css';
-import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
+import { ingredientTypeItems } from '../../core/const/ingredient-type-items.const';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
 /** redux */
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,7 +16,7 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
         , selectedItems: store.selectedIngredients.items
     }));
 
-    const groups = ingredientItemTypes.map(itemType => ({
+    const groups = ingredientTypeItems.map(itemType => ({
         key: itemType.key,
         name: itemType.name,
         ref: null,

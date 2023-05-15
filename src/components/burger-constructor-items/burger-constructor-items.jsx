@@ -1,10 +1,10 @@
 import React from 'react';
 import { useDrop } from "react-dnd";
 import styles from './burger-constructor-items.module.css';
-import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
+import { IngredientType } from '../../core/models/ingredient-type.model';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorUnlockedElement from '../constructor-unlocked-element/constructor-unlocked-element';
-import { DndArea } from '../../core/types/dnd-area.type';
+import { DndArea } from '../../core/models/dnd-area.model';
 
 /** redux */
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,7 +18,7 @@ const BurgerConstructorItems = React.memo(() => {
     , selectedItems: store.selectedIngredients.items
   }));
   const [{ isHover }, dropTarget] = useDrop({
-    accept: DndArea.INGREDIENT,
+    accept: DndArea.ingredient,
     drop(item) {
       onDropHandler(item);
     },
@@ -38,10 +38,10 @@ const BurgerConstructorItems = React.memo(() => {
   }
 
   const lockedItem = React.useMemo(() =>
-    selectedItems.find(t => t.type === ingredientItemTypeKeys.bun), [selectedItems])
+    selectedItems.find(t => t.type === IngredientType.bun), [selectedItems])
 
   const unlockedItems = React.useMemo(() =>
-    selectedItems.filter(t => t.type !== ingredientItemTypeKeys.bun)?.map(t => ({
+    selectedItems.filter(t => t.type !== IngredientType.bun)?.map(t => ({
       id: t.id,
       name: t.name,
       price: t.price,

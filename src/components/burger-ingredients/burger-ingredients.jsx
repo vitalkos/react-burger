@@ -1,10 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { ingredientItemTypes } from '../../core/types/ingredient-item.type';
+import { ingredientTypeItems } from '../../core/const/ingredient-type-items.const';
 import BurgerIngredientTabs from '../burger-ingredient-tabs/burger-ingredient-tabs';
 import BurgerIngredientItems from '../burger-ingredient-items/burger-ingredient-items';
 
 const BurgerIngredients = React.memo(() => {
-    const [selectedGroupKey, setSelectedGroupKey] = useState(ingredientItemTypes[0].key);
+    const [selectedGroupKey, setSelectedGroupKey] = useState(ingredientTypeItems[0].key);
     const itemsComponentRef = useRef();
 
     const tabClicked = (e) =>

@@ -3,7 +3,7 @@ import { useDrop, useDrag } from "react-dnd";
 import styles from './constructor-unlocked-element.module.css';
 import { constructorUnlockedElementPropTypes } from './constructor-unlocked-element.type';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { DndArea } from '../../core/types/dnd-area.type';
+import { DndArea } from '../../core/models/dnd-area.model';
 
 /** redux */
 import { useDispatch } from 'react-redux';
@@ -15,7 +15,7 @@ const ConstructorUnlockedElement = React.memo((props) => {
     dispatch(deleteSelectedIngredient(props.rowKey));
 
   const [{ isDragging }, dragRef] = useDrag({
-    type: DndArea.CONSTRUCTOR,
+    type: DndArea.constructor,
     item: { key: props.rowKey },
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
@@ -23,7 +23,7 @@ const ConstructorUnlockedElement = React.memo((props) => {
   });
 
   const [, dropRef] = useDrop({
-    accept: DndArea.CONSTRUCTOR,
+    accept: DndArea.constructor,
     hover: ({ key }) => key !== props.rowKey &&
       dispatch(moveSelectedIngredient(key, props.rowKey))
 
