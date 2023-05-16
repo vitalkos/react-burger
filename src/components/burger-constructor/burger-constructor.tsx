@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './burger-constructor.module.css';
 import BurgerConstructorItems from '../burger-constructor-items/burger-constructor-items';
 import BurgerOrderTotal from '../burger-order-total/burger-order-total';
 
-const BurgerConstructor = React.memo(() => {
+const BurgerConstructor: FC = React.memo(() => {
   return (
     <div className={`mt-25 ${styles.burgerConstructorContainer}`}>
       <section className={styles.itemsContainer}>

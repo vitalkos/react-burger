@@ -9,9 +9,9 @@ export type TOrderDto = {
     updatedAt: string | Date,
     number: number,
     price: number,
-    owner: TUser & { createdAt: string | Date,
+    owner: TUser & { 
+        createdAt: string | Date,
         updatedAt: string | Date
     },
     ingredients: TIngredientDto[]
-
 }

@@ -1,17 +1,21 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, FC } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { burgerIngredientTabsPropTypes } from './burger-ingredient-tabs.type';
 import styles from './burger-ingredient-tabs.module.css';
 import { ingredientTypeItems } from '../../core/const/ingredient-type-items.const';
 
-const BurgerIngredientTabs = (props) => {
-    const tabs = ingredientTypeItems;
-    const [currentTabKey, setCurrentTabKey] = useState(props.selectedItemKey);
-    
-    const prevTabKeyRef = useRef();
-    const prevSelectedItemKey = useRef();
+type TBurgerIngredientTabsProps = {
+    selectedItemKey: string,
+    onTabClicked: Function
+}
 
-    const setCurrent = (tabKey) => {
+const BurgerIngredientTabs: FC<TBurgerIngredientTabsProps> = (props) => {
+    const tabs = ingredientTypeItems;
+    const [currentTabKey, setCurrentTabKey] = useState<string>(props.selectedItemKey);
+    
+    const prevTabKeyRef = useRef<string | null>(null);
+    const prevSelectedItemKey = useRef<string | null>(null);
+
+    const setCurrent = (tabKey: string) => {
         props.onTabClicked({ key: tabKey });
         setCurrentTabKey(tabKey);
     }
@@ -32,9 +36,6 @@ const BurgerIngredientTabs = (props) => {
                     <Tab value={tab.key} active={currentTabKey === tab.key} onClick={setCurrent}>{tab.name}</Tab>
                 </section>))}
         </div>)
-
 }
-
-BurgerIngredientTabs.propTypes = burgerIngredientTabsPropTypes;
 
 export default BurgerIngredientTabs;

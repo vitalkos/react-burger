@@ -1,47 +1,68 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, MutableRefObject } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
-import { burgerIngredientItemsPropTypes } from './burger-ingredient-items.type';
 import styles from './burger-ingredient-items.module.css';
 import { ingredientTypeItems } from '../../core/const/ingredient-type-items.const';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
 /** redux */
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { TIngredient } from '../../core/models/ingredient.model';
+import { TSelectedIngredient } from '../../core/models/selected-ingredient.model';
+import { IngredientType } from '../../core/models/ingredient-type.model';
 
-const BurgerIngredientItems = React.forwardRef((props, ref) => {
+type TBurgerIngredientItemsProps = {
+    selectedGroupKey: string,
+    onGroupScrolled: Function
+}
+
+export type TBurgerIngredientItemsRef = {
+    key: IngredientType,
+    ref: MutableRefObject<HTMLParagraphElement | null> | null
+}
+
+const BurgerIngredientItems = React.forwardRef<TBurgerIngredientItemsRef[], TBurgerIngredientItemsProps>((props, ref) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const { items, selectedItems } = useSelector(store => ({
-        items: store.ingredients.items
-        , selectedItems: store.selectedIngredients.items
+    const { items, selectedItems } = useSelector((store: any) => ({
+        items: store.ingredients.items as TIngredient[]
+        , selectedItems: store.selectedIngredients.items as TSelectedIngredient[]
     }));
 
-    const groups = ingredientTypeItems.map(itemType => ({
+    const groups: {
+        key: IngredientType,
+        ref: MutableRefObject<HTMLParagraphElement | null> | null,
+        name: string,
+        items: TIngredient[]
+    }[] = ingredientTypeItems.map(itemType => ({
         key: itemType.key,
         name: itemType.name,
         ref: null,
         items: items.filter(t => t.type === itemType.key)
     }));
 
-    groups[0].ref = useRef();
-    groups[1].ref = useRef();
-    groups[2].ref = useRef();
+    groups[0].ref = useRef<HTMLParagraphElement>(null);
+    groups[1].ref = useRef<HTMLParagraphElement>(null);
+    groups[2].ref = useRef<HTMLParagraphElement>(null);
 
-    const containerRef = useRef();
+    const containerRef = useRef<HTMLDivElement>(null);
 
-    ref.current = groups.map(t => ({ key: t.key, ref: t.ref }));
+    if (typeof ref === 'function')
+        ref(groups.map(t => ({ key: t.key, ref: t.ref })));
+    else
+        ref && (ref.current = groups.map(t => ({ key: t.key, ref: t.ref })));
 
-    const calcItemsCount = (items) => items.map(t => t.id).reduce((t, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
-    const itemsCount = calcItemsCount(selectedItems);
+    const calcItemsCount = (items: TSelectedIngredient[]) =>
+        items.map(t => t.id).reduce((t: { [name: string]: number }, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
+    const itemsCount: { [name: string]: number } = calcItemsCount(selectedItems);
 
     let selectedGroupKey = props.selectedGroupKey;
     const scrolledGroupHandlerRef = useRef(() => {
         const container = containerRef.current;
-        const sections = groups.map(t => t.ref.current);
+        if (!container) return;
+        const sections = groups.map(t => t.ref?.current);
         const containerPosition = container.getBoundingClientRect();
-        const positions = sections.map(section => section.getBoundingClientRect());
+        const positions = sections.map(section => section?.getBoundingClientRect());
         positions.forEach((position, index) => {
-            if (position.top < containerPosition.top && position.bottom > 0 &&
+            if (position && position.top < containerPosition.top && position.bottom > 0 &&
                 groups[index].key !== selectedGroupKey) {
                 selectedGroupKey = groups[index].key;
                 props.onGroupScrolled({ key: selectedGroupKey });
@@ -54,14 +75,13 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
         const scrolledGroupHandler = scrolledGroupHandlerRef.current;
         container?.addEventListener('scroll', scrolledGroupHandler);
         return () => {
-            container.removeEventListener("scroll", scrolledGroupHandler);
+            container?.removeEventListener("scroll", scrolledGroupHandler);
         }
     }, []);
 
-    const itemClicked = (e) => {
-        e?.id && navigate(`/ingredients/${e.id}`, {state: { backgroundLocation: location }})
+    const itemClicked = (e: { id: string }) => {
+        e?.id && navigate(`/ingredients/${e.id}`, { state: { backgroundLocation: location } })
     }
-
 
     return (
         <div className={`custom-scroll mt-10 mb-10 ${styles.ingredientItemsContainer}`} ref={containerRef}>
@@ -84,7 +104,5 @@ const BurgerIngredientItems = React.forwardRef((props, ref) => {
                 </section>)}
         </div>);
 })
-
-BurgerIngredientItems.propTypes = burgerIngredientItemsPropTypes;
 
 export default BurgerIngredientItems;

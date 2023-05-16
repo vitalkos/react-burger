@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
 import { Routes, Route, useLocation } from "react-router-dom";
 import '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app.module.css';
@@ -25,10 +25,10 @@ import {
 import Profile from '../profile/profile';
 import { ProtectedRouteElement } from '../protected-route/protected-route';
 
-const App = () => {
-  const dispatch = useDispatch();
+const App: FC = () => {
+  const dispatch: any = useDispatch();
   const location = useLocation();
-  const state = location.state;
+  const state = location.state as { backgroundLocation?: Location };
 
   useEffect(() => {
     dispatch(getUser());
@@ -43,11 +43,11 @@ const App = () => {
       <main className={`ml-20 mr-20 ${styles.appMain}`}>
         <Routes location={state?.backgroundLocation || location}>
           <Route path="/" element={<ConstructorPage />} />
-          <Route path="/login" element={<ProtectedRouteElement forAuthorized={true} element={<LoginPage />}/>} />
-          <Route path="/register" element={<ProtectedRouteElement forAuthorized={true} element={<RegisterPage />}/>} />
-          <Route path="/forgot-password" element={<ProtectedRouteElement forAuthorized={true} element={<ForgotPasswordPage />}/>} />
-          <Route path="/reset-password" element={<ProtectedRouteElement forAuthorized={true} element={<ResetPasswordPage />}/>} />
-          <Route path="/profile" element={<ProtectedRouteElement forAuthorized={false} element={<ProfilePage />}/>} >
+          <Route path="/login" element={<ProtectedRouteElement forAuthorized={true} element={<LoginPage />} />} />
+          <Route path="/register" element={<ProtectedRouteElement forAuthorized={true} element={<RegisterPage />} />} />
+          <Route path="/forgot-password" element={<ProtectedRouteElement forAuthorized={true} element={<ForgotPasswordPage />} />} />
+          <Route path="/reset-password" element={<ProtectedRouteElement forAuthorized={true} element={<ResetPasswordPage />} />} />
+          <Route path="/profile" element={<ProtectedRouteElement forAuthorized={false} element={<ProfilePage />} />} >
             <Route path="" element={<Profile />} />
             <Route path="orders" element={<NotFoundPage />} />
             <Route path="exit" element={<NotFoundPage />} />

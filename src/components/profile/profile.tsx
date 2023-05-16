@@ -1,33 +1,38 @@
-import React, { useState } from 'react';
+import React, { FC, useState, SyntheticEvent, ChangeEvent } from 'react';
 import styles from './profile.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
 /** redux */
 import { useDispatch, useSelector } from 'react-redux';
 import { editUser } from '../../services/actions';
+import { TUser } from '../../core/models/user.model';
 
-const Profile = () => {
-    const { user, editUserRequestPending } = useSelector(store => ({
-        user: store.auth.user,
-        editUserRequestPending: store.auth.editUserRequest
+type TForm = TUser & {
+    password: string
+}
+
+const Profile: FC = () => {
+    const { user, editUserRequestPending } = useSelector((store: any) => ({
+        user: store.auth.user as TUser,
+        editUserRequestPending: store.auth.editUserRequest as boolean
     }));
 
-    const [form, setValue] = useState({ name: user.name, email: user.email, password: '' });
-    const dispatch = useDispatch();
+    const [form, setValue] = useState<TForm>({ name: user.name, email: user.email, password: '' });
+    const dispatch: any = useDispatch();
 
-    const onChange = e => 
+    const onChange = (e: ChangeEvent<HTMLInputElement>) => 
         setValue({ ...form, [e.target.name]: e.target.value});
 
-    const save = (e) => {
+    const save = (e: SyntheticEvent) => {
         e.preventDefault();
-        const data = {};
+        const data: Partial<TForm> = {};
         form.name !== user.name && (data.name = form.name);
         form.email !== user.email && (data.email = form.email);
         !!form.password && (data.password = form.password);
         dispatch(editUser(data));
     }
 
-    const cancel = (e) => {
+    const cancel = (e: SyntheticEvent) => {
         e.preventDefault();
         setValue({name: user.name, email: user.email, password: ''})
     }

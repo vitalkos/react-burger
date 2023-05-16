@@ -1,33 +1,35 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDrop } from "react-dnd";
 import styles from './burger-constructor-items.module.css';
 import { IngredientType } from '../../core/models/ingredient-type.model';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorUnlockedElement from '../constructor-unlocked-element/constructor-unlocked-element';
+import { TIngredient } from '../../core/models/ingredient.model';
+import { TSelectedIngredient } from '../../core/models/selected-ingredient.model';
 import { DndArea } from '../../core/models/dnd-area.model';
 
 /** redux */
 import { useSelector, useDispatch } from 'react-redux';
 import { addSelectedIngredient } from '../../services/actions';
 
-const BurgerConstructorItems = React.memo(() => {
+const BurgerConstructorItems: FC = React.memo(() => {
   const dispatch = useDispatch();
 
-  const { items, selectedItems } = useSelector(store => ({
-    items: store.ingredients.items
-    , selectedItems: store.selectedIngredients.items
+  const { items, selectedItems } = useSelector((store: any) => ({
+    items: store.ingredients.items as TIngredient[]
+    , selectedItems: store.selectedIngredients.items as TSelectedIngredient[]
   }));
   const [{ isHover }, dropTarget] = useDrop({
     accept: DndArea.ingredient,
     drop(item) {
-      onDropHandler(item);
+      onDropHandler(item as { id: string });
     },
     collect: monitor => ({
       isHover: monitor.isOver(),
     })
   });
 
-  const onDropHandler = async (e) => {
+  const onDropHandler = async (e: { id: string }) => {
     if (!e.id)
       return;
     try {
@@ -70,8 +72,8 @@ const BurgerConstructorItems = React.memo(() => {
 
     {!!unlockedItems && (
       <section className={`custom-scroll ${styles.unlockedItemsContainer}`}>
-        {unlockedItems.map(item =>
-          (<ConstructorUnlockedElement key={item.rowKey} {...item} />))}
+        {unlockedItems.map(item => !!item.rowKey ?
+          (<ConstructorUnlockedElement key={item.rowKey} {...item} rowKey={item.rowKey}/>) : null)}
       </section>
     )}
 

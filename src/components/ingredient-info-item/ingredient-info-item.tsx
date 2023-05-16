@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './ingredient-info-item.module.css';
-import '@ya.praktikum/react-developer-burger-ui-components'
-import { ingredientInfoItemPropTypes } from './ingredient-info-item.type';
+import '@ya.praktikum/react-developer-burger-ui-components';
 
-const IngredientInfoItem = (props) => {
+type TIngredientInfoItemProps = {
+    name: string,
+    value: number,
+    extraClass?: string
+};
+
+const IngredientInfoItem: FC<TIngredientInfoItemProps> = (props) => {
     return (
         <section className={`${styles.ingredientInfoItemContainer} ${props.extraClass || ''}`}>
             <p className={`noselect text text_type_main-default text_color_inactive ${styles.ingredientText}`}>{props.name}</p>
@@ -11,7 +16,5 @@ const IngredientInfoItem = (props) => {
         </section>
     );
 }
-
-IngredientInfoItem.propTypes = ingredientInfoItemPropTypes;
 
 export default IngredientInfoItem;

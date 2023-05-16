@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './ingredient-details.module.css';
 import '@ya.praktikum/react-developer-burger-ui-components'
 import IngredientInfoItem from '../ingredient-info-item/ingredient-info-item';
-import { ingredientDetailsType } from './ingredient-details.type';
+import { TIngredientDetails } from '../../core/models/ingredient-details.model';
 
-const IngredientDetails = ({item}) => {
+type TIngredientDetailsProps = {
+    item: TIngredientDetails
+};
+
+const IngredientDetails: FC<TIngredientDetailsProps> = ({item}) => {
     return (
         <div className={styles.ingredientDetailsContainer}>
             {!!item &&
@@ -21,7 +25,5 @@ const IngredientDetails = ({item}) => {
         </div>
     );
 }
-
-IngredientDetails.propTypes = ingredientDetailsType;
 
 export default IngredientDetails;

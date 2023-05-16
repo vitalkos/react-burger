@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDrop, useDrag } from "react-dnd";
 import styles from './constructor-unlocked-element.module.css';
-import { constructorUnlockedElementPropTypes } from './constructor-unlocked-element.type';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndArea } from '../../core/models/dnd-area.model';
 
 /** redux */
 import { useDispatch } from 'react-redux';
 import { deleteSelectedIngredient, moveSelectedIngredient } from '../../services/actions';
+import { TIngredientProp } from '../../core/models/ingredient-prop.model';
 
-const ConstructorUnlockedElement = React.memo((props) => {
+type TConstructorUnlockedElementProps = TIngredientProp & {
+  rowKey: number
+};
+
+const ConstructorUnlockedElement: FC<TConstructorUnlockedElementProps> = React.memo((props) => {
   const dispatch = useDispatch();
   const removeClicked = () =>
     dispatch(deleteSelectedIngredient(props.rowKey));
@@ -24,7 +28,7 @@ const ConstructorUnlockedElement = React.memo((props) => {
 
   const [, dropRef] = useDrop({
     accept: DndArea.constructor,
-    hover: ({ key }) => key !== props.rowKey &&
+    hover: ({ key }: { key: number}) => key !== props.rowKey &&
       dispatch(moveSelectedIngredient(key, props.rowKey))
 
   });
@@ -46,6 +50,5 @@ const ConstructorUnlockedElement = React.memo((props) => {
       />
     </section>);
 });
-ConstructorUnlockedElement.propTypes = constructorUnlockedElementPropTypes;
 
 export default ConstructorUnlockedElement;

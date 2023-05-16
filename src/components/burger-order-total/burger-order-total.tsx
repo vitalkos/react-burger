@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './burger-order-total.module.css';
 import Modal from '../modal/modal';
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,19 +8,20 @@ import { useNavigate } from 'react-router';
 /** redux */
 import { useDispatch, useSelector } from 'react-redux';
 import { setOrderDetails, clearOrderDetails } from '../../services/actions';
+import { TSelectedIngredient } from '../../core/models/selected-ingredient.model';
 
-const BurgerOrderTotal = () => {
-  const dispatch = useDispatch();
+const BurgerOrderTotal: FC = () => {
+  const dispatch: any = useDispatch();
   const navigate = useNavigate();
-  const { selectedItems, totalCost, orderId, isOrderCreating, isAuthorized } = useSelector(store => ({
-    selectedItems: store.selectedIngredients.items
-    , totalCost: store.selectedIngredients.totalCost
-    , orderId: store.orderDetails.id
-    , isOrderCreating: store.orderDetails.orderRequest
-    , isAuthorized: !!store.auth.user
+  const { selectedItems, totalCost, orderId, isOrderCreating, isAuthorized } = useSelector((store: any) => ({
+    selectedItems: store.selectedIngredients.items as TSelectedIngredient[]
+    , totalCost: store.selectedIngredients.totalCost as number
+    , orderId: store.orderDetails.id as number
+    , isOrderCreating: store.orderDetails.orderRequest as boolean
+    , isAuthorized: !!store.auth.user as boolean
   }));
 
-  const createOrder = () => {
+  const createOrder: () => void = () => {
     if (!isAuthorized) {
       navigate('/login');
       return;
@@ -30,7 +31,7 @@ const BurgerOrderTotal = () => {
       dispatch(setOrderDetails(ingredientIdList));
   }
 
-  const closeOrderModal = () =>
+  const closeOrderModal: () => void = () =>
     dispatch(clearOrderDetails());
 
   return (

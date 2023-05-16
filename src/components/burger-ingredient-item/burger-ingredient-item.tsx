@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useDrag } from "react-dnd";
 import { CurrencyIcon, Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { burgerIngredientItemPropTypes } from './burger-ingredient-item.type';
 import styles from './burger-ingredient-item.module.css';
 import { DndArea } from '../../core/models/dnd-area.model';
+import { TIngredientProp } from '../../core/models/ingredient-prop.model';
 
-const BurgerIngredientItem = React.memo((props) => {
+type TBurgerIngredientItemProps = TIngredientProp & {
+    onClick: Function,
+    count?: number
+}
+
+const BurgerIngredientItem: FC<TBurgerIngredientItemProps> = React.memo((props) => {
     const [{ isDrag }, dragRef] = useDrag({
         type: DndArea.ingredient,
         item: { id: props.id },
@@ -29,6 +34,5 @@ const BurgerIngredientItem = React.memo((props) => {
         </div>
     )
 })
-BurgerIngredientItem.propTypes = burgerIngredientItemPropTypes;
 
 export default BurgerIngredientItem;

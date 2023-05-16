@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styles from './app-header.module.css';
 import HeaderButton from '../header-button/header-button';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 /** redux */
 import { useSelector } from 'react-redux';
 
-const AppHeader = React.memo(() => {
-    const { userName } = useSelector(store => ({
-        userName: store.auth.user?.name
-      }));
+const AppHeader: FC = React.memo(() => {
+    const userName: string = useSelector((store: any) => store.auth.user?.name);
     return (
         <div className={styles.headerContainer}>
             <section className={`mt-4 mb-4 ml-15 ${styles.section}`}>
