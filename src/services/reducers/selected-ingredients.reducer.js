@@ -1,4 +1,4 @@
-import { ingredientItemTypeKeys } from '../../core/types/ingredient-item.type';
+import { IngredientType } from '../../core/models/ingredient-type.model';
 import {
     ADD_SELECTED_INGREDIENT
     , DELETE_SELECTED_INGREDIENT
@@ -18,7 +18,7 @@ export const selectedIngredientsReducer = (state = initialState, action) => {
             if (!addedItem)
                 return { ...state };
 
-            const items = addedItem.type === ingredientItemTypeKeys.bun ?
+            const items = addedItem.type === IngredientType.bun ?
                 addBun([...state.items], addedItem) : addItem([...state.items], addedItem);
 
             return { ...state, items: items, totalCost: calcTotalCost(items) };
@@ -44,7 +44,7 @@ export const selectedIngredientsReducer = (state = initialState, action) => {
 const calcTotalCost = (ingredients) => ingredients.map(t => t.price).reduce((p, c) => p + c, 0);
 
 const addBun = (items, addedItem) => {
-    const existedBun = items.find(t => t.type === ingredientItemTypeKeys.bun);
+    const existedBun = items.find(t => t.type === IngredientType.bun);
     if (existedBun && existedBun.id === addedItem.id) return;
     items = existedBun ? items.filter(t => t.id !== existedBun.id) : items;
     items = addItem(items, addedItem);

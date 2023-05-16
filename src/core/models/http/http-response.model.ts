@@ -1,0 +1,1 @@
+export type THttpResponse<TDataType> = { success: boolean } & TDataType;
