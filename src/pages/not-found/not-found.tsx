@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './not-found.module.css';
 
-export const NotFoundPage = () => {
+export const NotFoundPage: FC = () => {
   return (
     <div className={styles.notFoundContainer}>
       <p className="noselect text text_type_digits-large">404</p>

@@ -1,15 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React, { FC, useState, SyntheticEvent } from 'react';
 import { NavLink, Outlet } from "react-router-dom";
 import styles from './profile.module.css';
 
 /** redux */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from '../../services/actions';
 
-export const ProfilePage = () => {
-    const [selectedSection, setSelectedSection] = useState();
-    const dispatch = useDispatch();
-    const sections = [
+type TSection = {
+    name: string,
+    route: string,
+    description: string,
+    onClick?: Function
+}
+
+export const ProfilePage: FC = () => {
+    const [selectedSection, setSelectedSection] = useState<TSection>();
+    const dispatch: any = useDispatch();
+    const sections: TSection[] = [
         {
             name: 'Профиль',
             route: '/profile',
@@ -25,7 +32,7 @@ export const ProfilePage = () => {
             description: ''
         }
     ];
-    const sectionClicked = (e, index) => {
+    const sectionClicked = (e: SyntheticEvent, index: number) => {
         const section = sections[index];
         if (!section)
             return;

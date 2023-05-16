@@ -1,19 +1,19 @@
-import React, { useState } from 'react';
+import React, { FC, useState, ChangeEvent, SyntheticEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from './forgot-password.module.css';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ResetPasswordClient } from '../../core/clients/reset-password';
 
 
-export const ForgotPasswordPage = () => {
+export const ForgotPasswordPage: FC = () => {
     const [email, setEmail] = useState('');
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
 
-    const onChange = e =>
+    const onChange = (e: ChangeEvent<HTMLInputElement>) =>
         setEmail(e.target.value || '');
 
-    const restore = (e) => {
+    const restore = (e: SyntheticEvent) => {
         e.preventDefault();
         if (!email) return;
         setIsLoading(true);

@@ -1,25 +1,23 @@
-import React from 'react'; 
+import React, { FC } from 'react'; 
 import { useNavigate, useParams } from "react-router-dom";
-import styles from './ingredient-details-modal.module.css';
 import Modal from '../../components/modal/modal';
 import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import { mapDetailsDataItem } from '../../core/mappers/data.mapper';
+import { TIngredient } from '../../core/models/ingredient.model';
 
 /** redux */
 import { useSelector } from 'react-redux';
 
-export const IngredientDetailsModalPage = () => {
+export const IngredientDetailsModalPage: FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const { item } = useSelector(store => ({
-    item: store.ingredients?.items?.find(t => t.id === id)
-  }));
+  const item = useSelector((store: any) => store.ingredients?.items as TIngredient[] | undefined)?.find(t => t.id === id);
   
   if (!item) return null;
 
   const detailsItem = mapDetailsDataItem(item);
 
-  const closeDetails = () =>
+  const closeDetails: () => void = () =>
     navigate(-1);
 
   return (

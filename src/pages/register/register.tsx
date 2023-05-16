@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { FC, useState, SyntheticEvent, ChangeEvent } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import styles from './register.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -7,17 +7,15 @@ import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-de
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../services/actions';
 
-export const RegisterPage = () => {
-    const { isAuthorized } = useSelector(store => ({
-        isAuthorized: !!store.auth.user
-    }));
-    const dispatch = useDispatch();
+export const RegisterPage: FC = () => {
+    const isAuthorized = useSelector((store: any) => !!store.auth.user as boolean);
+    const dispatch: any = useDispatch();
     const [data, setValue] = useState({ name: '', email: '', password: '', nameValid: false, emailValid: false, passwordValid: false });
 
-    const onChange = e =>
+    const onChange = (e: ChangeEvent<HTMLInputElement>) =>
         setValue({ ...data, [e.target.name]: e.target.value, [e.target.name + 'Valid']: e.target.validity.valid });
 
-    const submit = e => {
+    const submit = (e: SyntheticEvent) => {
         e.preventDefault();
         dispatch(register(data.name, data.email, data.password));
     }

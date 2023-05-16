@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { FC, useState, ChangeEvent, SyntheticEvent } from 'react';
 import { Link, useLocation, useNavigate, Navigate } from 'react-router-dom';
 import styles from './reset-password.module.css';
 import { Input, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 import { ResetPasswordClient } from '../../core/clients/reset-password';
 
-export const ResetPasswordPage = () => {
+export const ResetPasswordPage: FC = () => {
     const [password, setPassword] = useState('');
     const [code, setCode] = useState('');
     const navigate = useNavigate();
@@ -12,13 +12,13 @@ export const ResetPasswordPage = () => {
     const location = useLocation();
     const email = location.state?.email;
 
-    const onCodeChange = e =>
+    const onCodeChange = (e: ChangeEvent<HTMLInputElement>) =>
         setCode(e.target.value || '');
 
-    const onPasswordChange = e =>
+    const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) =>
         setPassword(e.target.value || '');
 
-    const save = (e) => {
+    const save = (e: SyntheticEvent) => {
         e.preventDefault();
         if (!code || !password) return;
         setIsLoading(true);
