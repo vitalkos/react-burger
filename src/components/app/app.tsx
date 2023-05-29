@@ -4,7 +4,7 @@ import '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './app.module.css';
 
 /** redux */
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { getIngredientsAll, getUser } from '../../services/actions';
 
 /** components */
@@ -26,7 +26,7 @@ import Profile from '../profile/profile';
 import { ProtectedRouteElement } from '../protected-route/protected-route';
 
 const App: FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const location = useLocation();
   const state = location.state as { backgroundLocation?: Location };
 

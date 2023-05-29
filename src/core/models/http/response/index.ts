@@ -8,3 +8,4 @@ export * from './refresh-token-response.model';
 export * from './register-response.model';
 export * from './reset-password-response.model';
 export * from './token-response.model';
+export * from './user-response.model';

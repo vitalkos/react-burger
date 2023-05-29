@@ -3,11 +3,11 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styles from './burger-ingredient-items.module.css';
 import { ingredientTypeItems } from '../../core/const/ingredient-type-items.const';
 import BurgerIngredientItem from '../burger-ingredient-item/burger-ingredient-item';
-/** redux */
-import { useSelector } from 'react-redux';
 import { TIngredient } from '../../core/models/ingredient.model';
 import { TSelectedIngredient } from '../../core/models/selected-ingredient.model';
 import { IngredientType } from '../../core/models/ingredient-type.model';
+/** redux */
+import { useSelector } from '../../services/hooks';
 
 type TBurgerIngredientItemsProps = {
     selectedGroupKey: string,
@@ -22,9 +22,9 @@ export type TBurgerIngredientItemsRef = {
 const BurgerIngredientItems = React.forwardRef<TBurgerIngredientItemsRef[], TBurgerIngredientItemsProps>((props, ref) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { items, selectedItems } = useSelector((store: any) => ({
-        items: store.ingredients.items as TIngredient[]
-        , selectedItems: store.selectedIngredients.items as TSelectedIngredient[]
+    const { items, selectedItems } = useSelector(store => ({
+        items: store.ingredients.items
+        , selectedItems: store.selectedIngredients.items
     }));
 
     const groups: {
@@ -50,7 +50,7 @@ const BurgerIngredientItems = React.forwardRef<TBurgerIngredientItemsRef[], TBur
     else
         ref && (ref.current = groups.map(t => ({ key: t.key, ref: t.ref })));
 
-    const calcItemsCount = (items: TSelectedIngredient[]) =>
+    const calcItemsCount = (items: readonly TSelectedIngredient[]) =>
         items.map(t => t.id).reduce((t: { [name: string]: number }, v) => { t[v] = (t[v] || 0) + 1; return t; }, {});
     const itemsCount: { [name: string]: number } = calcItemsCount(selectedItems);
 

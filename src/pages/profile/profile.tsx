@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import styles from './profile.module.css';
 
 /** redux */
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { logout } from '../../services/actions';
 
 type TSection = {
@@ -15,7 +15,7 @@ type TSection = {
 
 export const ProfilePage: FC = () => {
     const [selectedSection, setSelectedSection] = useState<TSection>();
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
     const sections: TSection[] = [
         {
             name: 'Профиль',

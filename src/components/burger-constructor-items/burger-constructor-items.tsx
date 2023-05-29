@@ -4,20 +4,18 @@ import styles from './burger-constructor-items.module.css';
 import { IngredientType } from '../../core/models/ingredient-type.model';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import ConstructorUnlockedElement from '../constructor-unlocked-element/constructor-unlocked-element';
-import { TIngredient } from '../../core/models/ingredient.model';
-import { TSelectedIngredient } from '../../core/models/selected-ingredient.model';
 import { DndArea } from '../../core/models/dnd-area.model';
 
 /** redux */
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { addSelectedIngredient } from '../../services/actions';
 
 const BurgerConstructorItems: FC = React.memo(() => {
   const dispatch = useDispatch();
 
-  const { items, selectedItems } = useSelector((store: any) => ({
-    items: store.ingredients.items as TIngredient[]
-    , selectedItems: store.selectedIngredients.items as TSelectedIngredient[]
+  const { items, selectedItems } = useSelector(store => ({
+    items: store.ingredients.items
+    , selectedItems: store.selectedIngredients.items
   }));
   const [{ isHover }, dropTarget] = useDrop({
     accept: DndArea.ingredient,

@@ -2,7 +2,7 @@ import React, { FC, useRef, useEffect } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 
 /** redux */
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 
 type TProtectedRouteElementProps = {
   element: JSX.Element,
@@ -10,9 +10,9 @@ type TProtectedRouteElementProps = {
 };
 
 export const ProtectedRouteElement: FC<TProtectedRouteElementProps> = ({ element, forAuthorized }) => {
-  const { isAuthorized, getUserRequestPending } = useSelector((store: any) => ({
-    isAuthorized: !!store.auth.user as boolean,
-    getUserRequestPending: store.auth.getUserRequest as boolean
+  const { isAuthorized, getUserRequestPending } = useSelector(store => ({
+    isAuthorized: !!store.auth.user,
+    getUserRequestPending: store.auth.getUserRequest
   }));
   const location = useLocation();
   const lastRouteRef = useRef<string>();

@@ -3,7 +3,7 @@ import styles from './app-header.module.css';
 import HeaderButton from '../header-button/header-button';
 import { Logo, BurgerIcon, ListIcon, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 /** redux */
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 
 const AppHeader: FC = React.memo(() => {
     const userName: string = useSelector((store: any) => store.auth.user?.name);

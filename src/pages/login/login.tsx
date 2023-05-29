@@ -4,11 +4,11 @@ import styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
 /** redux */
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { login } from '../../services/actions';
 
 export const LoginPage: FC = () => {
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
     const [data, setValue] = useState({ email: '', password: '', emailValid: false, passwordValid: false });
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) =>

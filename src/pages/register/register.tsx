@@ -4,12 +4,12 @@ import styles from './register.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components'
 
 /** redux */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { register } from '../../services/actions';
 
 export const RegisterPage: FC = () => {
-    const isAuthorized = useSelector((store: any) => !!store.auth.user as boolean);
-    const dispatch: any = useDispatch();
+    const isAuthorized = useSelector(store => !!store.auth.user);
+    const dispatch = useDispatch();
     const [data, setValue] = useState({ name: '', email: '', password: '', nameValid: false, emailValid: false, passwordValid: false });
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) =>

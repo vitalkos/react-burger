@@ -1,4 +1,6 @@
+import { TUser } from '../../core/models/user.model';
 import { deleteAccessToken, deleteRefreshToken, setAccessToken, setRefreshToken } from '../../utils/token';
+import { TAuthActions } from '../actions/auth.action';
 import {
     AUTH_GET_USER_FAILED
     , AUTH_GET_USER_REQUEST
@@ -15,9 +17,24 @@ import {
     , AUTH_EDIT_USER_FAILED
     , AUTH_EDIT_USER_REQUEST
     , AUTH_EDIT_USER_SUCCESS
-} from '../actions/auth.action';
+} from '../constants';
 
-const initialState = {
+
+export type TAuthState = {
+    user: TUser | null;
+    getUserRequest: boolean;
+    getUserFailed: boolean;
+    editUserRequest: boolean;
+    editUserFailed: boolean;
+    loginRequest: boolean;
+    loginFailed: boolean;
+    logoutRequest: boolean;
+    logoutFailed: boolean;
+    registerRequest: boolean;
+    registerFailed: boolean;
+};
+
+const initialState: TAuthState = {
     user: null,
     getUserRequest: true,
     getUserFailed: false,
@@ -31,7 +48,7 @@ const initialState = {
     registerFailed: false
 };
 
-export const authReducer = (state = initialState, action) => {
+export const authReducer = (state = initialState, action: TAuthActions): TAuthState => {
     switch (action.type) {
 
         case AUTH_GET_USER_REQUEST: {
@@ -79,7 +96,7 @@ export const authReducer = (state = initialState, action) => {
             };
         }
 
-        
+
         case AUTH_LOGIN_REQUEST: {
             return {
                 ...state,
@@ -104,7 +121,7 @@ export const authReducer = (state = initialState, action) => {
             };
         }
 
-        
+
         case AUTH_LOGOUT_REQUEST: {
             return {
                 ...state,
@@ -129,7 +146,7 @@ export const authReducer = (state = initialState, action) => {
             };
         }
 
-        
+
         case AUTH_REGISTER_REQUEST: {
             return {
                 ...state,

@@ -3,14 +3,13 @@ import { useParams } from "react-router-dom";
 import styles from './ingredient-details.module.css';
 import IngredientDetails from '../../components/ingredient-details/ingredient-details';
 import { mapDetailsDataItem } from '../../core/mappers/data.mapper';
-import { TIngredient } from '../../core/models/ingredient.model';
 
 /** redux */
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks';
 
 export const IngredientDetailsPage: FC = () => {
   const { id } = useParams();
-  const item = useSelector((store: any) => store.ingredients?.items as TIngredient[] | undefined)?.find(t => t.id === id);
+  const item = useSelector(store => store.ingredients?.items?.find(t => t.id === id));
 
   if (!item) return null;
 

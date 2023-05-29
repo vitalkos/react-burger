@@ -1,8 +1,7 @@
 import { AuthClient } from "../../core/clients/auth.client";
 import { UserClient } from "../../core/clients/user.client";
 import { TUpdateUserRequest } from "../../core/models/http/request";
-import { TLoginResponse } from "../../core/models/http/response";
-import { TUser } from "../../core/models/user.model";
+import { TLoginResponse, TUserResponse } from "../../core/models/http/response";
 import { AppDispatch, AppThunkAction } from "../types";
 import {
     AUTH_LOGOUT_REQUEST
@@ -31,7 +30,6 @@ export interface IAuthLogoutRequestAction {
 }
 export interface IAuthLogoutSuccessAction {
     readonly type: typeof AUTH_LOGOUT_SUCCESS;
-    readonly data: TUser;
 }
 export interface IAuthLogoutFailedAction {
     readonly type: typeof AUTH_LOGOUT_FAILED;
@@ -67,7 +65,7 @@ export interface IAuthGetUserRequestAction {
 }
 export interface IAuthGetUserSuccessAction {
     readonly type: typeof AUTH_GET_USER_SUCCESS;
-    readonly data: TUser;
+    readonly data: TUserResponse;
 }
 export interface IAuthGetUserFailedAction {
     readonly type: typeof AUTH_GET_USER_FAILED;
@@ -79,7 +77,7 @@ export interface IAuthEditUserRequestAction {
 }
 export interface IAuthEditUserSuccessAction {
     readonly type: typeof AUTH_EDIT_USER_SUCCESS;
-    readonly data: TUser;
+    readonly data: TUserResponse;
 }
 export interface IAuthEditUserFailedAction {
     readonly type: typeof AUTH_EDIT_USER_FAILED;
@@ -111,10 +109,9 @@ export const logout = (): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch({
         type: AUTH_LOGOUT_REQUEST
     } as IAuthLogoutRequestAction);
-    UserClient.get()
+    AuthClient.logout()
         .then(data => dispatch({
-            type: AUTH_LOGOUT_SUCCESS,
-            data
+            type: AUTH_LOGOUT_SUCCESS
         } as IAuthLogoutSuccessAction))
         .catch(err => dispatch({
             type: AUTH_LOGOUT_FAILED
