@@ -2,7 +2,10 @@
     border-radius: var(--common-border-radius);
     background: var(--background);
 }
-
+.orderCardContainer:hover {
+    background: #FFFFFF07;
+    cursor: pointer;
+}
 .currentDate {
     float: right;
 }

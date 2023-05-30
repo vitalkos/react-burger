@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./order-card.module.css";
 import { TWSOrder } from "../../core/models/ws/ws-order.model";
 import { CurrencyIcon, FormattedDate } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -12,14 +13,20 @@ type TOrderCardProps = TWSOrder & {
 };
 
 const OrderCard: FC<TOrderCardProps> = (props) => {
+    const location = useLocation();
+    const navigate = useNavigate();
     const ingredients = useSelector(store => props.ingredients
         .map(ingredientId => store.ingredients.items.find(t => t.id === ingredientId)!));
 
     const cost = React.useMemo(() =>
         ingredients.map(t => t.price).reduce((partialSum, a) => partialSum + a, 0), [ingredients]);
 
+        const itemClicked = () => {
+            navigate(!props.showStatus ? `/feed/${props._id}` : `/profile/orders/${props._id}`, { state: { backgroundLocation: location } })
+        }
+
     return (
-        <div className={`p-6 ${styles.orderCardContainer}`}>
+        <div className={`p-6 ${styles.orderCardContainer}`} onClick={itemClicked}>
             <section className="mb-6">
                 <span className="noselect text text_type_digits-default"> #{props.number} </span>
                 <FormattedDate className={`noselect text text_type_main-default text_color_inactive ${styles.currentDate}`} date={new Date(props.createdAt)} />

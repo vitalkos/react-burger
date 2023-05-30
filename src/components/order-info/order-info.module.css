@@ -1,0 +1,43 @@
+.orderInfoContainer {
+    width: 780px;
+}
+
+.orderNumber {
+    text-align: center;
+}
+
+.completedOrderStatus {
+    color: #2ac0e6;
+}
+
+.ingredientsContainer {
+    max-height: 370px;
+    overflow: auto;
+}
+
+.ingredientContainer {
+    display: flex;
+    align-items: center;
+}
+
+.ingredientNameContainer {
+    width: 100%;
+}
+
+.ingredientImage {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    background: linear-gradient(black, black) padding-box,
+        linear-gradient(to right, rgb(173, 31, 255), purple) border-box;
+    border-radius: 50%;
+    border: 3px solid transparent;
+}
+
+.orderInfoTotal {
+    display: flex;
+}
+
+.orderInfoTotalDate {
+    width: 100%;
+}

@@ -24,7 +24,7 @@ export const ProfilePage: FC = () => {
         }, {
             name: 'История заказов',
             route: '/profile/orders',
-            description: ''
+            description: 'В этом разделе вы можете просмотреть свою историю заказов'
         }, {
             name: 'Выход',
             route: '/profile/exit',
@@ -59,7 +59,7 @@ export const ProfilePage: FC = () => {
                     {selectedSection?.description}
                 </p>
             </section>
-            <section className={`pt-30 ${styles.rightSection}`}>
+            <section className={`mb-5 pt-30 ${styles.rightSection}`}>
                 <Outlet />
             </section>
         </div>
