@@ -27,13 +27,13 @@ export type TIngredientsActions =
 export const getIngredientsAll = (): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch({
         type: GET_INGREDIENTS_REQUEST
-    } as IGetIngredientsRequestAction);
+    });
     IngredientClient.getAll()
         .then(data => dispatch({
             type: GET_INGREDIENTS_SUCCESS,
             data: mapDataList(data)
-        } as IGetIngredientsSuccessAction))
+        }))
         .catch(err => dispatch({
             type: GET_INGREDIENTS_FAILED
-        } as IGetIngredientsFailedAction))
+        }))
 }

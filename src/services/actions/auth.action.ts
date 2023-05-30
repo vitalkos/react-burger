@@ -108,69 +108,69 @@ export type TAuthActions =
 export const logout = (): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch({
         type: AUTH_LOGOUT_REQUEST
-    } as IAuthLogoutRequestAction);
+    });
     AuthClient.logout()
         .then(data => dispatch({
             type: AUTH_LOGOUT_SUCCESS
-        } as IAuthLogoutSuccessAction))
+        }))
         .catch(err => dispatch({
             type: AUTH_LOGOUT_FAILED
-        } as IAuthLogoutFailedAction))
+        }))
 };
 
 export const register = (name: string, email: string, password: string): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch({
         type: AUTH_REGISTER_REQUEST
-    } as IAuthRegisterRequestAction);
+    });
     AuthClient.register(name, email, password)
         .then(data => dispatch({
             type: AUTH_REGISTER_SUCCESS,
             data
-        } as IAuthRegisterSuccessAction))
+        }))
         .catch(err => dispatch({
             type: AUTH_REGISTER_FAILED
-        } as IAuthRegisterFailedAction))
+        }))
 };
 
 
 export const login = (email: string, password: string): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch({
         type: AUTH_LOGIN_REQUEST
-    } as IAuthLoginRequestAction);
+    });
     AuthClient.login(email, password)
         .then(data => dispatch({
             type: AUTH_LOGIN_SUCCESS,
             data
-        } as IAuthLoginSuccessAction))
+        }))
         .catch(err => dispatch({
             type: AUTH_LOGIN_FAILED
-        } as IAuthLoginFailedAction))
+        }))
 };
 
 export const getUser = (): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch({
         type: AUTH_GET_USER_REQUEST
-    } as IAuthGetUserRequestAction);
+    });
     UserClient.get()
         .then(data => dispatch({
             type: AUTH_GET_USER_SUCCESS,
             data
-        } as IAuthGetUserSuccessAction))
+        }))
         .catch(err => dispatch({
             type: AUTH_GET_USER_FAILED
-        } as IAuthGetUserFailedAction))
+        }))
 };
 
 export const editUser = (fields: TUpdateUserRequest): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch({
         type: AUTH_EDIT_USER_REQUEST
-    } as IAuthEditUserRequestAction);
+    });
     UserClient.update(fields)
         .then(data => dispatch({
             type: AUTH_EDIT_USER_SUCCESS,
             data
-        } as IAuthEditUserSuccessAction))
+        }))
         .catch(err => dispatch({
             type: AUTH_EDIT_USER_FAILED
-        } as IAuthEditUserFailedAction))
+        }))
 };

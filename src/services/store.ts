@@ -54,7 +54,7 @@ const wsOrdersAllActions: TWSStoreActions = {
 const enhancer = composeEnhancers(
     applyMiddleware(
         thunk
-        , socketMiddleware('orders/all', wsOrdersAllActions)
-        , socketMiddleware('orders', wsOrdersActions, true))
+        , socketMiddleware('wss://norma.nomoreparties.space/orders/all', wsOrdersAllActions)
+        , socketMiddleware('wss://norma.nomoreparties.space/orders', wsOrdersActions, true))
         );
 export const store = createStore(rootReducer, enhancer);

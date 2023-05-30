@@ -6,6 +6,7 @@ import {
     ADD_SELECTED_INGREDIENT
     , DELETE_SELECTED_INGREDIENT
     , MOVE_SELECTED_INGREDIENT
+    , CLEAR_SELECTED_INGREDIENTS
 } from "../constants";
 
 export interface IAddSelectedIngredientAction {
@@ -21,11 +22,15 @@ export interface IMoveSelectedIngredientAction {
     readonly key: number;
     readonly newPositionKey: number;
 }
+export interface IClearSelectedIngredientsAction {
+    readonly type: typeof CLEAR_SELECTED_INGREDIENTS;
+}
 
 export type TSelectedIngredientsActions =
     IAddSelectedIngredientAction
     | IDeleteSelectedIngredientAction
-    | IMoveSelectedIngredientAction;
+    | IMoveSelectedIngredientAction
+    | IClearSelectedIngredientsAction;
 
 export const addSelectedIngredient = (item: TIngredient): IAddSelectedIngredientAction => ({
     type: ADD_SELECTED_INGREDIENT,
@@ -41,4 +46,9 @@ export const moveSelectedIngredient = (key: number, newPositionKey: number): IMo
     type: MOVE_SELECTED_INGREDIENT,
     key,
     newPositionKey
+}); 
+
+
+export const clearSelectedIngredients = (): IClearSelectedIngredientsAction => ({
+    type: CLEAR_SELECTED_INGREDIENTS
 }); 

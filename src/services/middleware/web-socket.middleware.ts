@@ -8,8 +8,6 @@ import type {
 } from '../types';
 import { getAccessToken } from '../../utils/token';
 
-const WS_BASE_URL = 'wss://norma.nomoreparties.space';
-
 export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions, authRequired: boolean = false): Middleware => {
     return ((store: MiddlewareAPI<AppDispatch, RootState>) => {
         let socket: WebSocket | null = null;
@@ -25,10 +23,10 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions, auth
                     const token = getAccessToken();
 
                     if (isAuthorized && token)
-                        socket = new WebSocket(`${WS_BASE_URL}/${wsUrl}?token=${token}`);
+                        socket = new WebSocket(`${wsUrl}?token=${token}`);
                 }
                 else
-                    socket = new WebSocket(`${WS_BASE_URL}/${wsUrl}`);
+                    socket = new WebSocket(wsUrl);
             }
             if (socket) {
                 socket.onopen = event => {
@@ -52,7 +50,7 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions, auth
                 if (type === wsSendMessage)
                     socket.send(JSON.stringify(action.payload));
 
-                if (type === wsDestroy){
+                if (type === wsDestroy) {
                     socket.close();
                     socket = null;
                 }

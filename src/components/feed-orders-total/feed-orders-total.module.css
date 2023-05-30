@@ -29,3 +29,12 @@
 .completedOrderItem {
     color: #2ac0e6;
 }
+.inWorkOrderOrderColumns {
+    display: flex;
+}
+
+.inWorkOrderOrderColumn {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}

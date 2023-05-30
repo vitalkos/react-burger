@@ -22,23 +22,29 @@ const FeedOrdersTotal: FC = React.memo(() => {
                     <p className="mb-6 noselect text text_type_main-medium">
                         Готовы:
                     </p>
-                    <section  className={`${styles.completedOrderColumns}`}>
-                    {completedOrdersColumns.map((completedOrdersColumn, columnIndex) => (
-                        <section key={columnIndex} className={`mr-2 ${styles.completedOrderColumn}`}>
-                            {completedOrdersColumn.map(completedOrder => (
-                                <p key={completedOrder} className={`noselect text text_type_digits-default ${styles.completedOrderItem}`}> {completedOrder} </p>
-                            ))}
-                        </section>
-                    ))}
+                    <section className={`${styles.completedOrderColumns}`}>
+                        {completedOrdersColumns.map((completedOrdersColumn, columnIndex) => (
+                            <section key={columnIndex} className={`mr-2 ${styles.completedOrderColumn}`}>
+                                {completedOrdersColumn.map(completedOrder => (
+                                    <p key={completedOrder} className={`noselect text text_type_digits-default ${styles.completedOrderItem}`}> {completedOrder} </p>
+                                ))}
+                            </section>
+                        ))}
                     </section>
                 </section>
                 <section className={`${styles.ordersStatusInWorkContainer}`}>
                     <p className="mb-6 noselect text text_type_main-medium">
                         В работе:
-                        {/* {inWorkOrders.map(inWorkOrder => (
-                            <p key={inWorkOrder} className="noselect text text_type_digits-default"> {inWorkOrder} </p>
-                        ))} */}
                     </p>
+                    <section className={`${styles.inWorkOrderOrderColumns}`}>
+                        {inWorkOrdersColumns.map((inWorkOrdersColumn, columnIndex) => (
+                            <section key={columnIndex} className={`mr-2 ${styles.inWorkOrderOrderColumn}`}>
+                                {inWorkOrdersColumn.map(inWorkOrder => (
+                                    <p key={inWorkOrder} className={`noselect text text_type_digits-default`}> {inWorkOrder} </p>
+                                ))}
+                            </section>
+                        ))}
+                    </section>
                 </section>
             </section>
 

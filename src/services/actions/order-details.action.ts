@@ -1,6 +1,7 @@
 import { OrderClient } from "../../core/clients/order.client";
 import { TOrderResponse } from "../../core/models/http/response";
 import { AppDispatch, AppThunkAction } from "../types";
+import { clearSelectedIngredients } from "./selected-ingredients.action";
 
 import {
     CLEAR_ORDER_DETAILS
@@ -40,13 +41,16 @@ export const clearOrderDetails = (): IClearOrderDetailsAction => ({
 export const setOrderDetails = (ids: string[]): AppThunkAction => (dispatch: AppDispatch) => {
     dispatch({
         type: SET_ORDER_DETAILS_REQUEST
-    } as ISetOrderDetailsRequestAction);
+    });
     OrderClient.create(ids)
-        .then(orderInfo => dispatch({
-            type: SET_ORDER_DETAILS_SUCCESS,
-            data: orderInfo
-        } as ISetOrderDetailsSuccessAction))
+        .then(orderInfo => {
+            dispatch({
+                type: SET_ORDER_DETAILS_SUCCESS,
+                data: orderInfo
+            });
+            dispatch(clearSelectedIngredients());
+        })
         .catch(err => dispatch({
             type: SET_ORDER_DETAILS_FAILED
-        } as ISetOrderDetailsFailedAction))
+        }))
 }

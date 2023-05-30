@@ -5,6 +5,7 @@ import {
     ADD_SELECTED_INGREDIENT
     , DELETE_SELECTED_INGREDIENT
     , MOVE_SELECTED_INGREDIENT
+    , CLEAR_SELECTED_INGREDIENTS
 } from '../constants';
 
 
@@ -42,6 +43,9 @@ export const selectedIngredientsReducer = (state = initialState, action: TSelect
             const items = [...state.items].filter(t => t.rowKey !== action.key);
             items.splice(newIndex, 0, item);
             return { ...state, items: items };
+        }
+        case CLEAR_SELECTED_INGREDIENTS: {
+            return { ...state, items: [], totalCost: null };
         }
         default: {
             return state;
