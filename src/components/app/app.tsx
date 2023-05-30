@@ -20,7 +20,8 @@ import {
   , ResetPasswordPage
   , ProfilePage
   , IngredientDetailsPage
-  , IngredientDetailsModalPage
+  , IngredientDetailsModalPage,
+  FeedPage
 } from '../../pages';
 import Profile from '../profile/profile';
 import { ProtectedRouteElement } from '../protected-route/protected-route';
@@ -53,6 +54,8 @@ const App: FC = () => {
             <Route path="exit" element={<NotFoundPage />} />
           </Route>
           <Route path="/ingredients/:id" element={<IngredientDetailsPage />} />
+          <Route path="/feed" element={<FeedPage />} />
+          <Route path="/feed/:id" element={<NotFoundPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
 

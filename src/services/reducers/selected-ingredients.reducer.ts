@@ -64,5 +64,11 @@ const addItem = (items: TSelectedIngredient[], addedItem: TSelectedIngredient): 
     const key = items.length > 0 ? Math.max(...items.map(t => t.rowKey ?? 1)) : 1;
     const newItem = { ...addedItem, rowKey: key >= 0 ? (key + 1) : 0 };
     items.push(newItem);
+    const buns = items.filter(t=>t.type === IngredientType.bun);
+    if (buns.length === 2) {
+        items = items.filter(t=>t.type !== IngredientType.bun);
+        items.unshift(buns[0]);
+        items.push(buns[1]);
+    }
     return items;
 }

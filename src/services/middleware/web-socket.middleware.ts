@@ -15,10 +15,9 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions, auth
         let socket: WebSocket | null = null;
 
         return next => (action: TApplicationActions) => {
-            debugger;
             const { dispatch, getState } = store;
             const { type } = action;
-            const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
+            const { wsInit, wsDestroy, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
 
             if (type === wsInit) {
                 if (authRequired) {
@@ -53,6 +52,10 @@ export const socketMiddleware = (wsUrl: string, wsActions: TWSStoreActions, auth
                 if (type === wsSendMessage)
                     socket.send(JSON.stringify(action.payload));
 
+                if (type === wsDestroy){
+                    socket.close();
+                    socket = null;
+                }
             }
 
             next(action);

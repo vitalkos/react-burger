@@ -4,6 +4,7 @@ import {
     , WS_ORDERS_ALL_CONNECTION_SUCCESS
     , WS_ORDERS_ALL_CONNECTION_ERROR
     , WS_ORDERS_ALL_CONNECTION_CLOSED
+    , WS_ORDERS_ALL_CONNECTION_DESTROY
     , WS_ORDERS_ALL_GET_MESSAGE
     , WS_ORDERS_ALL_SEND_MESSAGE
 } from "../constants";
@@ -25,6 +26,10 @@ export interface IWSOrdersAllConnectionClosedAction {
     readonly type: typeof WS_ORDERS_ALL_CONNECTION_CLOSED;
 }
 
+export interface IWSOrdersAllConnectionDestroy {
+    readonly type: typeof WS_ORDERS_ALL_CONNECTION_DESTROY;
+}
+
 export interface IWSOrdersAllGetMessageAction {
     readonly type: typeof WS_ORDERS_ALL_GET_MESSAGE;
     readonly payload: TWSOrderMessage;
@@ -36,7 +41,8 @@ export interface IWSOrdersAllSendMessageAction {
 }
 
 export type TWSOrdersAllActions =
-    | IWSOrdersAllConnectionStart
+    IWSOrdersAllConnectionStart
+    | IWSOrdersAllConnectionDestroy
     | IWSOrdersAllConnectionSuccessAction
     | IWSOrdersAllConnectionErrorAction
     | IWSOrdersAllConnectionClosedAction
@@ -46,4 +52,7 @@ export type TWSOrdersAllActions =
 
 export const wsOrdersAllConnect = (): IWSOrdersAllConnectionStart => ({
     type: WS_ORDERS_ALL_CONNECTION_START
+});
+export const wsOrdersAllDisconnect = (): IWSOrdersAllConnectionDestroy => ({
+    type: WS_ORDERS_ALL_CONNECTION_DESTROY
 });
