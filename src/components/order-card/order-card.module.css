@@ -1,0 +1,61 @@
+.orderCardContainer {
+    border-radius: var(--common-border-radius);
+    background: var(--background);
+}
+.orderCardContainer:hover {
+    background: #FFFFFF07;
+    cursor: pointer;
+}
+.currentDate {
+    float: right;
+}
+
+.orderName {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.completedOrder {
+    color: #2ac0e6;
+}
+
+.totalsContainer {
+    height: 70px;
+    display: flex;
+    align-items: center;
+}
+
+.ingredientsContainer {
+    width: 100%;
+    overflow: hidden;
+    display: inline-flex;
+}
+
+.ingredientContainer {
+    display: flex;
+}
+
+.ingredientImage {
+    height: 70px;
+    width: 70px;
+    object-fit: cover;
+    background: linear-gradient(black, black) padding-box,
+        linear-gradient(to right, rgb(173, 31, 255), purple) border-box;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    margin-right: -20px;
+}
+
+.ingredientLastImage {
+    display: inline-flex;
+    width: 70px;
+    height: 70px;
+    margin-left: -52px;
+    margin-top: 2px;
+    z-index: 97;
+    background: #77777755;
+    border-radius: 50%;
+    justify-content: center;
+    align-items: center;
+}

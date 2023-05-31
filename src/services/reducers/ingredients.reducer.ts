@@ -1,16 +1,24 @@
+import { TIngredient } from '../../core/models/ingredient.model';
+import { TIngredientsActions } from '../actions/ingredients.action';
 import {
     GET_INGREDIENTS_REQUEST
     , GET_INGREDIENTS_SUCCESS
     , GET_INGREDIENTS_FAILED
-} from '../actions/ingredients.action';
+} from '../constants';
 
-const initialState = {
+export type TIngredientsState = {
+    items: ReadonlyArray<TIngredient>;
+    itemsRequest: boolean;
+    itemsFailed: boolean;
+};
+
+const initialState: TIngredientsState = {
     items: [],
     itemsRequest: false,
     itemsFailed: false
 };
 
-export const ingredientsReducer = (state = initialState, action) => {
+export const ingredientsReducer = (state = initialState, action: TIngredientsActions): TIngredientsState => {
     switch (action.type) {
         case GET_INGREDIENTS_REQUEST: {
             return {

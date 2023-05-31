@@ -3,7 +3,7 @@ import { NavLink, Outlet } from "react-router-dom";
 import styles from './profile.module.css';
 
 /** redux */
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { logout } from '../../services/actions';
 
 type TSection = {
@@ -15,7 +15,7 @@ type TSection = {
 
 export const ProfilePage: FC = () => {
     const [selectedSection, setSelectedSection] = useState<TSection>();
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
     const sections: TSection[] = [
         {
             name: 'Профиль',
@@ -24,7 +24,7 @@ export const ProfilePage: FC = () => {
         }, {
             name: 'История заказов',
             route: '/profile/orders',
-            description: ''
+            description: 'В этом разделе вы можете просмотреть свою историю заказов'
         }, {
             name: 'Выход',
             route: '/profile/exit',
@@ -59,7 +59,7 @@ export const ProfilePage: FC = () => {
                     {selectedSection?.description}
                 </p>
             </section>
-            <section className={`pt-30 ${styles.rightSection}`}>
+            <section className={`mb-5 pt-30 ${styles.rightSection}`}>
                 <Outlet />
             </section>
         </div>

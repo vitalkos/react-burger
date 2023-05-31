@@ -1,24 +1,24 @@
 import React, { FC, useState, SyntheticEvent, ChangeEvent } from 'react';
 import styles from './profile.module.css';
 import { Input, Button } from '@ya.praktikum/react-developer-burger-ui-components'
+import { TUser } from '../../core/models/user.model';
 
 /** redux */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { editUser } from '../../services/actions';
-import { TUser } from '../../core/models/user.model';
 
 type TForm = TUser & {
     password: string
 }
 
 const Profile: FC = () => {
-    const { user, editUserRequestPending } = useSelector((store: any) => ({
-        user: store.auth.user as TUser,
-        editUserRequestPending: store.auth.editUserRequest as boolean
+    const { user, editUserRequestPending } = useSelector(store => ({
+        user: store.auth.user!,
+        editUserRequestPending: store.auth.editUserRequest
     }));
 
     const [form, setValue] = useState<TForm>({ name: user.name, email: user.email, password: '' });
-    const dispatch: any = useDispatch();
+    const dispatch = useDispatch();
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => 
         setValue({ ...form, [e.target.name]: e.target.value});

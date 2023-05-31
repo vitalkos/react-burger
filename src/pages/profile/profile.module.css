@@ -1,7 +1,7 @@
 .profileSectionsContainer {
     display: flex;
     width: 100%;
-    max-width: 1240px;
+    max-width: 1440px;
 }
 
 .leftSection {
@@ -24,4 +24,6 @@
 
 .rightSection {
     width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }

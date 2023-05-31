@@ -6,19 +6,20 @@ import OrderDetails from '../order-details/order-details';
 import { useNavigate } from 'react-router';
 
 /** redux */
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks';
 import { setOrderDetails, clearOrderDetails } from '../../services/actions';
-import { TSelectedIngredient } from '../../core/models/selected-ingredient.model';
+import { IngredientType } from '../../core/models/ingredient-type.model';
 
 const BurgerOrderTotal: FC = () => {
-  const dispatch: any = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { selectedItems, totalCost, orderId, isOrderCreating, isAuthorized } = useSelector((store: any) => ({
-    selectedItems: store.selectedIngredients.items as TSelectedIngredient[]
-    , totalCost: store.selectedIngredients.totalCost as number
-    , orderId: store.orderDetails.id as number
-    , isOrderCreating: store.orderDetails.orderRequest as boolean
-    , isAuthorized: !!store.auth.user as boolean
+  const { selectedItems, totalCost, orderId, isOrderCreating, isAuthorized, hasSelectedBuns } = useSelector(store => ({
+    selectedItems: store.selectedIngredients.items
+    , totalCost: store.selectedIngredients.totalCost
+    , orderId: store.orderDetails.id
+    , isOrderCreating: store.orderDetails.orderRequest
+    , isAuthorized: !!store.auth.user
+    , hasSelectedBuns: store.selectedIngredients.items.some(t=>t.type === IngredientType.bun)
   }));
 
   const createOrder: () => void = () => {
@@ -36,9 +37,9 @@ const BurgerOrderTotal: FC = () => {
 
   return (
     <section className={styles.orderContainer}>
-      <p className="mr-1 noselect text text_type_digits-default">{totalCost}</p>
+      <p className="mr-1 noselect text text_type_digits-default">{totalCost || 0}</p>
       <CurrencyIcon type="primary" />
-      <Button extraClass='ml-10' htmlType="button" type="primary" size="small" onClick={createOrder} disabled={isOrderCreating}>
+      <Button extraClass='ml-10' htmlType="button" type="primary" size="small" onClick={createOrder} disabled={isOrderCreating || !hasSelectedBuns}>
         Оформить заказ
       </Button>
       {orderId && (

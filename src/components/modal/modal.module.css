@@ -14,13 +14,13 @@
 
 .modalContent {
     border-radius: var(--common-border-radius);
-    width: 750px;
+    width: 950px;
     background: var(--background-alt);
     position: relative;
     margin: auto;
     cursor: auto;
     border: 1px solid #FFFFFF23;
-    z-index: 3;
+    z-index: 999;
     height: fit-content;
 }
 

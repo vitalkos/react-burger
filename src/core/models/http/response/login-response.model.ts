@@ -1,4 +1,4 @@
-import { TUser } from "../../user.model"
 import { TTokenResponse } from "./token-response.model"
+import { TUserResponse } from "./user-response.model";
 
-export type TLoginResponse = { user: TUser } & TTokenResponse;
+export type TLoginResponse = TUserResponse & TTokenResponse;

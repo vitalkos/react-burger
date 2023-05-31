@@ -6,4 +6,5 @@ export * from './forgot-password/forgot-password';
 export * from './profile/profile';
 export * from './ingredient-details/ingredient-details';
 export * from './ingredient-details-modal/ingredient-details-modal';
+export * from './feed/feed';
 export * from './not-found/not-found';

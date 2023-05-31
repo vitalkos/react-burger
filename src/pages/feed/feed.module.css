@@ -1,0 +1,8 @@
+.feedSection {
+    min-width: 400px;
+    max-width: 700px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }

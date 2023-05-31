@@ -3,11 +3,11 @@ import { useDrop, useDrag } from "react-dnd";
 import styles from './constructor-unlocked-element.module.css';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { DndArea } from '../../core/models/dnd-area.model';
+import { TIngredientProp } from '../../core/models/ingredient-prop.model';
 
 /** redux */
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks';
 import { deleteSelectedIngredient, moveSelectedIngredient } from '../../services/actions';
-import { TIngredientProp } from '../../core/models/ingredient-prop.model';
 
 type TConstructorUnlockedElementProps = TIngredientProp & {
   rowKey: number
@@ -22,7 +22,7 @@ const ConstructorUnlockedElement: FC<TConstructorUnlockedElementProps> = React.m
     type: DndArea.constructor,
     item: { key: props.rowKey },
     collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
+      isDragging: monitor.isDragging()
     })
   });
 
@@ -30,7 +30,6 @@ const ConstructorUnlockedElement: FC<TConstructorUnlockedElementProps> = React.m
     accept: DndArea.constructor,
     hover: ({ key }: { key: number}) => key !== props.rowKey &&
       dispatch(moveSelectedIngredient(key, props.rowKey))
-
   });
 
   const draggingStyle = {

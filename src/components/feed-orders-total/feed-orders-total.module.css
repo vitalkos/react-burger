@@ -1,0 +1,40 @@
+.feedOrderTotalContainer {
+    height: 100%;
+    overflow: auto;
+}
+
+.ordersStatusContainer {
+    display: flex;
+    column-gap: 36px;
+}
+
+.ordersStatusCompletedContainer {
+    width: 50%;
+}
+
+.ordersStatusInWorkContainer {
+    width: 50%;
+}
+
+.completedOrderColumns {
+    display: flex;
+}
+
+.completedOrderColumn {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
+
+.completedOrderItem {
+    color: #2ac0e6;
+}
+.inWorkOrderOrderColumns {
+    display: flex;
+}
+
+.inWorkOrderOrderColumn {
+    display: flex;
+    flex-direction: column;
+    row-gap: 8px;
+}
