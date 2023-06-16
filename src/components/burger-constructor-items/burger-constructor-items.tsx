@@ -54,7 +54,7 @@ const BurgerConstructorItems: FC = React.memo(() => {
     outlineOffset: '-2px',
     outline: '1px solid green'
   };
-  return (<div className={styles.burgerConstructorItemsContainer}
+  return (<div className={styles.burgerConstructorItemsContainer} data-testid="constructor_drop_container"
     ref={dropTarget} style={isHover ? hoverStyle : {}}>
     {!!lockedItem &&
       <section className='ml-8 mr-4'>
@@ -69,7 +69,7 @@ const BurgerConstructorItems: FC = React.memo(() => {
       </section>}
 
     {!!unlockedItems && (
-      <section className={`custom-scroll ${styles.unlockedItemsContainer}`}>
+      <section className={`custom-scroll ${styles.unlockedItemsContainer}`}  data-testid="constructor_existed_items_container">
         {unlockedItems.map(item => !!item.rowKey ?
           (<ConstructorUnlockedElement key={item.rowKey} {...item} rowKey={item.rowKey}/>) : null)}
       </section>

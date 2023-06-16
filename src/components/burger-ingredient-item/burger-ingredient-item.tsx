@@ -23,7 +23,7 @@ const BurgerIngredientItem: FC<TBurgerIngredientItemProps> = React.memo((props) 
         props.onClick({ id: props.id });
 
     return (
-        <div className={styles.ingredientItemContainer} style={isDrag ? { outline: '1px solid #ffee0030' } : {}} title={props.name} onClick={clicked} ref={dragRef}>
+        <div className={styles.ingredientItemContainer} style={isDrag ? { outline: '1px solid #ffee0030' } : {}} title={props.name} onClick={clicked} ref={dragRef} data-testid={`ingredient_item_${props.id}`}>
             <img className={`ml-4 mr-4 mb-1 ${styles.ingredientItemImage}`} src={props.image} alt={props.name} />
             <section className={`mb-1 ${styles.ingredientItemCost}`}>
                 <p className="mr-2 noselect text text_type_digits-default">{props.price}</p>

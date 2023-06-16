@@ -33,18 +33,18 @@ const Modal: FC<TModalProps> = (props) => {
 
     return modalRoot ? ReactDOM.createPortal(
         (
-            <div className={styles.modalContainer}>
+            <div className={styles.modalContainer} data-testid="modal_container">
                 <ModalOverlay onClick={closeClicked} />
                 <section className={styles.modalContent}>
                     {!props.header ?
-                        (<section className={`mt-15 mr-10 ${styles.closeButtonWithoutHeader} ${styles.closeButtonContainer}`}>
+                        (<section className={`mt-15 mr-10 ${styles.closeButtonWithoutHeader} ${styles.closeButtonContainer}`} data-testid="modal_empty_header_close_button">
                             <CloseIcon type="primary" onClick={closeClicked} />
                         </section>) : (
                             <section className={`pl-10 pr-10 mt-10 pt-4 pb-4 ${styles.modalHeaderContainer}`}>
                                 <p className={`noselect text text_type_main-large ${styles.modalHeaderContainer}`}>
                                     {props.header}
                                 </p>
-                                <section className={styles.closeButtonContainer}>
+                                <section className={styles.closeButtonContainer} data-testid="modal_close_button">
                                     <CloseIcon type="primary" onClick={closeClicked} />
                                 </section>
                             </section>

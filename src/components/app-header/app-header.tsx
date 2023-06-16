@@ -16,7 +16,7 @@ const AppHeader: FC = React.memo(() => {
             <section className={`${styles.section} ${styles.logoSection}`}>
                 <Logo />
             </section>
-            <section className={`mr-15 ${styles.section} ${styles.rightSection}`}>
+            <section className={`mr-15 ${styles.section} ${styles.rightSection}`}  data-testid="header_user_name_container">
                 <HeaderButton route='/profile' text={userName || 'Личный кабинет'} icon={ProfileIcon} />
             </section>
         </div>)
