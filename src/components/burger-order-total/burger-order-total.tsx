@@ -39,7 +39,7 @@ const BurgerOrderTotal: FC = () => {
     <section className={styles.orderContainer}>
       <p className="mr-1 noselect text text_type_digits-default">{totalCost || 0}</p>
       <CurrencyIcon type="primary" />
-      <Button extraClass='ml-10' htmlType="button" type="primary" size="small" onClick={createOrder} disabled={isOrderCreating || !hasSelectedBuns}>
+      <Button extraClass='ml-10' htmlType="button" type="primary" size="small" onClick={createOrder} disabled={isOrderCreating || !hasSelectedBuns} data-testid="place_order_button">
         Оформить заказ
       </Button>
       {orderId && (

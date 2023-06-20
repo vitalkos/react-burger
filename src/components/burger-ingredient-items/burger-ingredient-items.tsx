@@ -97,7 +97,7 @@ const BurgerIngredientItems = React.forwardRef<TBurgerIngredientItemsRef[], TBur
                             count: itemsCount[t.id]
                         })).map((item, itemIndex) => (
                             <section key={item.id} className={`ml-4 mr-3 ${styles.ingredientGroupItemContainer} ${(itemIndex === 0 || itemIndex === 1) ? 'mt-6' : 'mt-8'}`}>
-                                <BurgerIngredientItem {...item} onClick={itemClicked} />
+                                <BurgerIngredientItem {...item} onClick={itemClicked}/>
                             </section>
                         ))}
                     </section>

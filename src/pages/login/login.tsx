@@ -23,9 +23,9 @@ export const LoginPage: FC = () => {
         <div className={styles.loginContainer}>
             <p className='mb-6 noselect text text_type_main-medium'>Вход</p>
             <form onSubmit={submit} className={styles.loginContainer}>
-                <EmailInput value={data.email} name="email" onChange={onChange} extraClass='mb-6' />
-                <PasswordInput value={data.password} name="password" onChange={onChange} extraClass='mb-6' />
-                <Button htmlType="submit" size="medium" extraClass='mb-20'
+                <EmailInput value={data.email} name="email" onChange={onChange} extraClass='mb-6' data-testid='email_input' />
+                <PasswordInput value={data.password} name="password" onChange={onChange} extraClass='mb-6' data-testid='password_input' />
+                <Button htmlType="submit" size="medium" extraClass='mb-20' data-testid='login_button'
                     disabled={!data.email || !data.password || !data.emailValid || !data.passwordValid}>
                     Войти
                 </Button>

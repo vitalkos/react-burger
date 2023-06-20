@@ -11,7 +11,7 @@ const OrderDetails: FC<TOrderDetailsProps> = (props) => {
         <div className={styles.orderDetailsContainer}>
             {!!props.orderId &&
                 (<>
-                    <p className={`mb-8 noselect text text_type_digits-large ${styles.orderText}`}>{props.orderId}</p>
+                    <p className={`mb-8 noselect text text_type_digits-large ${styles.orderText}`} data-testid="order_details_number">{props.orderId}</p>
                     <p className={`mb-15 noselect text text_type_main-medium ${styles.orderText}`}>Идентификатор заказа</p>
                     <section className={`mb-15 ${styles.successIconContainer}`} >
                         <CheckMarkIcon type="primary" />

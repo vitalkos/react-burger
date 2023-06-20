@@ -15,7 +15,7 @@ type TOrderCardProps = TWSOrder & {
 const OrderCard: FC<TOrderCardProps> = (props) => {
     const location = useLocation();
     const navigate = useNavigate();
-    const ingredients = useSelector(store => props.ingredients
+    const ingredients = useSelector(store => props.ingredients.filter(t=>!!t)
         .map(ingredientId => store.ingredients.items.find(t => t.id === ingredientId)!));
 
     const cost = React.useMemo(() =>

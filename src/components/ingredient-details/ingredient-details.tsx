@@ -14,7 +14,7 @@ const IngredientDetails: FC<TIngredientDetailsProps> = ({item}) => {
             {!!item &&
                 (<>
                     <img className='mb-4' src={item.image} alt={item.name} />
-                    <p className={`mb-8 noselect text text_type_main-default ${styles.ingredientText}`}>{item.name}</p>
+                    <p className={`mb-8 noselect text text_type_main-default ${styles.ingredientText}`}  data-testid="ingredient_details_name">{item.name}</p>
                     <section className={`mb-15 ${styles.ingredientInfoContainer}`}>
                         <IngredientInfoItem name='Калории, ккал' value={item.calories} extraClass='mr-5' />
                         <IngredientInfoItem name='Белки, г' value={item.proteins} extraClass='mr-5' />
